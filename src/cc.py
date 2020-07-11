@@ -1,6 +1,5 @@
 #Calculate combustion chamber parameters, with values given
 # F = Cf*Pc*At
-import numpy as np
 
 def run():
     print("\nWelcome to the Combustion Chamber Calculator! \n")
