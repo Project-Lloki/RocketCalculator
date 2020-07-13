@@ -9,56 +9,42 @@ def run():
     PU = ''
     AU = ''
     print("\nChoose the value you wish to calculate for:")
-    print("\n 1: Tank dimensions from weight and radius. \n 2:  XXXX NOT DONE Cf (Coefficient of thrust) \n 3: Pc(Chamber Pressure) \n 4: At (Throat area)\n")
-    solve = input("What are you solving for?")
+    print("\n 1: Height from weight and radius. \n 2:Radius from Height and weight\n")
+    solve = input("What are you solving for?\n")
 
 
     loxWeightPerCubedFoot = 71.23
     keroseneWeightPerCubedFoot = 49.90
 
-    def heightFromWeightandRadius():
-        r = float(input("radius-inches:"))
+    def height():
+        r = float(input("radius-inches:"))/12
         weight = float(input("weight in pounds:"))
-        loxOrKero = input(" LOX or Kerosene \n 1: LOX, 2: Kerosene")
+        loxOrKero = input(" LOX or Kerosene \n 1: LOX, 2: Kerosene: \n")
         if loxOrKero == '1' :
             volume = 1.5 * (weight / loxWeightPerCubedFoot)
-            return format(volume / ((r ** 2) * math.pi), '0.3f')
+            return format(volume / ((r ** 2) * math.pi), '0.3f') + " feet or "  + format((volume / ((r ** 2) * math.pi))*12, '0.3f') + " inches"
         elif loxOrKero == '2' :
             volume = 1.5 * (weight / keroseneWeightPerCubedFoot)
-            return format(volume / ((r ** 2) * math.pi), '0.3f')
-
-    def volumeInitial():
-        F = input("F(" + FU + "):")
-        Pc = input("Pc(" + PU + "):")
-        At = input("At(" + AU + "):")
-        k = float(Pc)*At
-        Cf = F/k
-        return Cf
+            return format(volume / ((r ** 2) * math.pi), '0.3f') + " feet or "  + format((volume / ((r ** 2) * math.pi))*12, '0.3f') + " inches"
 
     def radius():
-        F = input("F(" + FU + "):")
-        Cf = input("Cf:")
-        At = input("At(" + AU + "):")
-        k = float(Cf)*At
-        Pc = F/k
-        return Pc
+        h = float(input("height-inches:")) / 12
+        weight = float(input("weight in pounds:"))
+        loxOrKero = input(" LOX or Kerosene \n 1: LOX, 2: Kerosene: \n")
+        if loxOrKero == '1':
+            volume = 1.5 * (weight / loxWeightPerCubedFoot)
+            return format(math.sqrt((volume/(math.pi*h))), '0.3f') + " feet or " + format(math.sqrt((volume/(math.pi*h))) * 12, '0.3f') + " inches"
+        elif loxOrKero == '2':
+            volume = 1.5 * (weight / keroseneWeightPerCubedFoot)
+            return format(math.sqrt((volume/(math.pi*h))), '0.3f') + " feet or " + format(math.sqrt((volume/(math.pi*h))) * 12, '0.3f') + " inches"
 
-    def height():
-        F = input("F(" + FU + "):")
-        Cf = input("Cf:")
-        Pc = input("Pc(" + PU + "):")
-        k = float(Cf)*Pc
-        At = F/k
-        return At
+
+
 
     if(solve == '1'):
-        print(heightFromWeightandRadius())
-    elif(solve == '2'):
-        print(volumeInitial())
-    elif(solve == '3'):
-        print(radius())
-    elif(solve == '4'):
         print(height())
+    elif(solve == '2'):
+        print(radius())
     else :
-        print("BAD INPUT GO AWAY REEE")
+        print("Invalid input, use 1, 2, 3 or 4 + ENTER")
 

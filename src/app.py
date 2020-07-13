@@ -1,6 +1,6 @@
 #Run file for all of the calculators
 import cc as c1
-import injector as c2
+import injector_nasa as c2
 import tanks as c3
 
 print('\nWelcome to the RocketCalculator!\n')
