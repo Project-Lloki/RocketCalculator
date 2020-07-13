@@ -4,7 +4,7 @@ pi = np.pi
 
 def run():
     print("\nWelcome to the NASA Injector Calculator! \n")
-    print("Here you can find TODO\n")
+    print("Here you can find mass flow, accurate Chamber pressure (P1/Pc), the ratio between oxygen and fuel velocities, and the ratio between oxygen and fuel pressures\n")
     print("1: Metric 2: Imperial\n")
     units = input("What units do you use:\n")
     if(units == '1'):
@@ -13,21 +13,35 @@ def run():
         print('imperial') #TODO
     else: units = input("Invalid input:")
 
-    print('\nFirst, we will solve for chamber pressure, we will need c*, At and mdot for this')
-    cstar = float(input('\nc* (effective exhaust velocity):'))
-    At = float(input('\nAt (throat area):'))
-    mdot = float(input('\nmdot (total mass flow):')) #TODO add a mdot calculator before this
-    c = cstar*mdot
+    print('Recommendations/Equation Requirements: \nImpingement angle of 60 degrees\n0.79 ratio between ID/OD of outlets (uneven triplets)')
+
+    print('First, we will determine total mass flow (mdot)')
+    F = float(input('\nF (thrust): '))
+    if(units == '2'):
+        F = F * 4.44822
+    go = 9.82
+    Is = float(input('\nIsp (specific impulse): '))
+    mdot = F/(go*Is)
+    print('mdot = ' + str(mdot) + ' kg/s')
+    imdot = mdot * 2.204623
+    print('mdot = ' + str(imdot) + ' lb/s')
+
+    print('\nNext, we will solve for chamber pressure, we will need c*, At and mdot for this')
+    cstar = float(input('\nc* (effective exhaust velocity): '))
+    At = float(input('\nAt (throat area): '))
+    if(units == 1):
+        c = cstar*mdot
+    else: c = cstar*imdot
     P1 = c/At
     print(P1)
 
     print('\nNext, we solve for the ratio of velocities') #TODO check necessity of this
     print('\nFor this, we will need p (specific gravity) of the oxidizer and fuel, A (cross sectional area) of the fuel and oxidizer holes, and prefered k\'')
-    pgf = float(input('\np of the fuel:\n')) 
-    pgo = float(input('p of the oxidizer:\n'))
-    df = float(input('diameter of the fuel outlet:\n')) #TODO automate through ratios
-    do = float(input('diameter of the oxidizer outlet:\n'))
-    k = float(input('prefered k\'(recommended 0.625):\n'))
+    pgf = float(input('\np of the fuel: ')) 
+    pgo = float(input('p of the oxidizer: '))
+    df = float(input('diameter of the fuel outlet: ')) #TODO automate through ratios
+    do = float(input('diameter of the oxidizer outlet: '))
+    k = float(input('prefered k\'(recommended 0.625): '))
 
     rf = df/2 #radius of fuel outlet
     ro = do/2 #radius of oxidizer outlet
@@ -43,6 +57,15 @@ def run():
     #deltay = input('Enter vertical distance between valves and the injector outlets:\n') may not need
     Po_Pf = ((pgo*v1_v2*v1_v2)/pgf)+(pgo/pgf)-1
     print(Po_Pf)
+
+    back = input('\nWould you like to go to another calculator? y/n \n')
+    if back == 'y':
+        import app
+        app.run()
+    elif back == 'n':
+        print('OK!')
+    else:
+        back = input('\nInvalid input! Would you like to go to another calculator? y/n \n')
     
     
 

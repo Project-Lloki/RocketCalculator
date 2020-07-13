@@ -61,4 +61,13 @@ def run():
         print(pressure())
     elif(solve == 4):
         print(throat())
+    
+    back = input('\nWould you like to go to another calculator? y/n \n')
+    if back == 'y':
+        import app
+        app.run()
+    elif back == 'n':
+        print('OK!')
+    else:
+        back = input('\nInvalid input! Would you like to go to another calculator? y/n \n')
 
