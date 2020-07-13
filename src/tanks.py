@@ -14,7 +14,7 @@ def run():
 
 
     loxWeightPerCubedFoot = 71.23
-    keroseneWeightPerCubedFoot = 49.9
+    keroseneWeightPerCubedFoot = 49.90
 
     def heightFromWeightandRadius():
         r = float(input("radius-inches:"))
