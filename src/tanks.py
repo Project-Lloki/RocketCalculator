@@ -13,18 +13,18 @@ def run():
     solve = input("What are you solving for?")
 
 
-    loxWeightPerCubedFoot = 71.16788
-    keroseneWeightPerCubedFoot = 50.31694
+    loxWeightPerCubedFoot = 71.23
+    keroseneWeightPerCubedFoot = 49.9
 
     def heightFromWeightandRadius():
         r = float(input("radius-inches:"))
         weight = float(input("weight in pounds:"))
         loxOrKero = input(" LOX or Kerosene \n 1: LOX, 2: Kerosene")
         if loxOrKero == '1' :
-            volume = 1.5 * (weight * 3)
+            volume = 1.5 * (weight / loxWeightPerCubedFoot)
             return format(volume / ((r ** 2) * math.pi), '0.3f')
         elif loxOrKero == '2' :
-            volume = 1.5 * (weight * keroseneWeightPerCubedFoot)
+            volume = 1.5 * (weight / keroseneWeightPerCubedFoot)
             return format(volume / ((r ** 2) * math.pi), '0.3f')
 
     def volumeInitial():
