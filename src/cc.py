@@ -6,11 +6,11 @@ def run():
     print("Here you can find thrust (F), coefficient of thrust (Cf), Chamber Pressure (Pc) or Throat Area (At) when you know at least three of these values.\n")
     print("1: Metric 2: Imperial\n")
     units = input("What units do you use:\n")
-    if(units == 1):
+    if(units == '1'):
         FU = 'N' 
         PU = ''
         AU = ''
-    elif(units == 2):
+    elif(units == '2'):
         FU = 'Lbf' 
         PU = 'psi' 
         AU = 'in^2'
@@ -23,33 +23,33 @@ def run():
 
 
     def thrust():
-        Cf = input("Cf:")
-        Pc = input("Pc (" + PU + "):")
-        At = input("At(" + AU + "):")
+        Cf = float(input("Cf:"))
+        Pc = float(input("Pc (" + PU + "):"))
+        At = float(input("At(" + AU + "):"))
         F = Cf*Pc*At
         return F
 
     def coefficient():
-        F = input("F(" + FU + "):")
-        Pc = input("Pc(" + PU + "):")
-        At = input("At(" + AU + "):")
-        k = float(Pc)*At
+        F = float(input("F(" + FU + "):"))
+        Pc = float(input("Pc (" + PU + "):"))
+        At = float(input("At(" + AU + "):"))
+        k = Pc*At
         Cf = F/k
         return Cf
 
     def pressure():
-        F = input("F(" + FU + "):")
-        Cf = input("Cf:")
-        At = input("At(" + AU + "):")
-        k = float(Cf)*At
+        F = float(input("F(" + FU + "):"))
+        Cf = float(input("Cf:"))
+        At = float(input("At(" + AU + "):"))
+        k = Cf*At
         Pc = F/k
         return Pc
 
     def throat():
-        F = input("F(" + FU + "):")
-        Cf = input("Cf:")
-        Pc = input("Pc(" + PU + "):")
-        k = float(Cf)*Pc
+        F = float(input("F(" + FU + "):"))
+        Cf = float(input("Cf:"))
+        Pc = float(input("Pc (" + PU + "):"))
+        k = Cf*Pc
         At = F/k
         return At
 
