@@ -1,4 +1,4 @@
-# coding=utf-8
+# tank height and radius calculator from weight requirements for lox and kerosene.
 import math
 
 def run():

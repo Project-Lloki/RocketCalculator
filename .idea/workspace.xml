@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5167b03-cb83-4f98-be4f-11b8e3fb1383" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/apogee.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tanks.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tanks.py" afterDir="false" />
@@ -15,13 +16,10 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/tanks.py">
+        <entry file="file://$PROJECT_DIR$/src/apogee.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="16" column="38" lean-forward="true" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
-              <folding>
-                <element signature="e#15#33#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="357">
+              <caret line="17" selection-start-line="17" selection-end-line="17" />
             </state>
           </provider>
         </entry>
@@ -43,8 +41,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/app.py" />
         <option value="$PROJECT_DIR$/src/tanks.py" />
+        <option value="$PROJECT_DIR$/src/app.py" />
+        <option value="$PROJECT_DIR$/src/apogee.py" />
       </list>
     </option>
   </component>
@@ -122,7 +121,7 @@
       <updated>1594413137792</updated>
       <workItem from="1594413139115" duration="398000" />
       <workItem from="1594603693957" duration="2648000" />
-      <workItem from="1594660558835" duration="1944000" />
+      <workItem from="1594660558835" duration="4318000" />
     </task>
     <task id="LOCAL-00001" summary="pt 3.">
       <created>1594607979012</created>
@@ -138,15 +137,28 @@
       <option name="project" value="LOCAL" />
       <updated>1594608884236</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="tank calculators complete, added radius from height+weight and fixed unit conversion errors.">
+      <created>1594662557981</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1594662557981</updated>
+    </task>
+    <task id="LOCAL-00004" summary="refactoring last commit.">
+      <created>1594662642654</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1594662642654</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5636000" />
+    <option name="totallyTimeSpent" value="8010000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16544656" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -175,8 +187,11 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="pt 3." />
-    <option name="LAST_COMMIT_MESSAGE" value="pt 3." />
+    <MESSAGE value="tank calculators complete, added radius from height+weight and fixed unit conversion errors." />
+    <MESSAGE value="refactoring last commit." />
+    <option name="LAST_COMMIT_MESSAGE" value="refactoring last commit." />
   </component>
   <component name="WindowStateProjectService">
     <state x="372" y="194" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1594413247878">
@@ -193,13 +208,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/injector.py" />
-    <entry file="file://$PROJECT_DIR$/src/app.py">
+    <entry file="file://$PROJECT_DIR$/src/tanks.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-          <folding>
-            <element signature="e#37#52#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="423">
+          <caret line="43" selection-start-line="1" selection-end-line="43" />
         </state>
       </provider>
     </entry>
@@ -208,18 +220,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cc.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="9" column="3" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="3" />
+        <state>
+          <caret column="8" selection-end-line="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tanks.py">
+    <entry file="file://$PROJECT_DIR$/src/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="16" column="38" lean-forward="true" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
+        <state relative-caret-position="168">
+          <caret line="8" column="52" lean-forward="true" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="52" />
           <folding>
-            <element signature="e#15#33#0" expanded="true" />
+            <element signature="e#37#52#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/apogee.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
