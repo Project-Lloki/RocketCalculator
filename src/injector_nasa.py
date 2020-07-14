@@ -20,11 +20,29 @@ def run():
     if(units == '2'):
         F = F * 4.44822
     go = 9.82
+    igo = 32.2
     Is = float(input('\nIsp (specific impulse): '))
     mdot = F/(go*Is)
     print('mdot = ' + str(mdot) + ' kg/s')
     imdot = mdot * 2.204623
     print('mdot = ' + str(imdot) + ' lb/s')
+
+    print('Next, we will determine the area and therefore diameter of the injector outlets, starting with the oxidizer')
+    Cd = float(input('\nCd (density coefficient, recommended 0.6): '))
+    pgo = float(input('\np of the oxidizer: '))
+    deltap = float(input('\ndelat-p across injector (recommended 70 psi):'))
+    Aho = imdot/(Cd*np.sqrt(igo*pgo*deltap))
+    print('\nOxidizer hole area: ' + str(Aho))
+
+    print('\nNext, fuel hole')
+    pgf = float(input('\np of the fuel: '))
+    Ahf = imdot/(Cd*np.sqrt(igo*pgf*deltap))
+    print('\nFuel hole area: ' + str(Ahf))
+
+    do = 2*np.sqrt(Aho/pi)
+    df = 2*np.sqrt(Ahf/pi)
+    print('\nTherefore, the diameter of the oxidizer hole is ' + str(do) + ' in\nand the diameter of the fuel hole is ' + str(df) + ' in')
+
 
     print('\nNext, we will solve for chamber pressure, we will need c*, At and mdot for this')
     cstar = float(input('\nc* (effective exhaust velocity): '))
@@ -37,10 +55,6 @@ def run():
 
     print('\nNext, we solve for the ratio of velocities') #TODO check necessity of this
     print('\nFor this, we will need p (specific gravity) of the oxidizer and fuel, A (cross sectional area) of the fuel and oxidizer holes, and prefered k\'')
-    pgf = float(input('\np of the fuel: ')) 
-    pgo = float(input('p of the oxidizer: '))
-    df = float(input('diameter of the fuel outlet: ')) #TODO automate through ratios
-    do = float(input('diameter of the oxidizer outlet: '))
     k = float(input('prefered k\'(recommended 0.625): '))
 
     rf = df/2 #radius of fuel outlet
