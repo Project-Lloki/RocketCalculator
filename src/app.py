@@ -6,7 +6,7 @@ import apogee as c4
 def run():
     print('\nWelcome to the RocketCalculator!\n')
     print('1: Combustion Chamber \n2: Injector Design \n3: Tanks\n4: Apogee Optimization')
-    calculator = input('Choose your calculator: \n')
+    calculator = input('\nChoose your calculator: ')
 
     if calculator == '1':
         c1.run()
@@ -20,3 +20,4 @@ def run():
         print('choose a proper calculator')
 
 run()
+
