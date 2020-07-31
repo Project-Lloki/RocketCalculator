@@ -1,5 +1,7 @@
 #Calculate combustion chamber parameters, with values given
 # F = Cf*Pc*At
+import restart as r
+import numpy as np
 
 def run():
     print("\nWelcome to the Combustion Chamber Calculator! \n")
@@ -10,17 +12,17 @@ def run():
         FU = 'N' 
         PU = ''
         AU = ''
+        g = 9.81
     elif(units == '2'):
         FU = 'Lbf' 
         PU = 'psi' 
         AU = 'in^2'
+        g = 32.2
     else: units = input("Invalid input:")
 
     print("\nChoose the value you wish to calculate for:")
     print("\n 1: F(thrust) \n 2: Cf (Coefficient of thrust) \n 3: Pc(Chamber Pressure) \n 4: At (Throat area)\n")
     solve = input("What are you solving for?")
-
-
 
     def thrust():
         Cf = float(input("Cf:"))
@@ -61,13 +63,67 @@ def run():
         print(pressure())
     elif(solve == 4):
         print(throat())
+
+    print('\nNext, we will solve for chamber pressure, we will need c*, At and mdot for this')
+    cstar = float(input('c* (effective exhaust velocity): '))
+    At = float(input('At (throat area): '))
+    if(units == '1'):
+        c = cstar*mdot
+        print('mdot')
+    else: 
+        c = cstar*imdot
+        print('imdot')
+    Pc = c/At
+    print('Chamber pressure: ' + str(Pc)) #TODO fix this
     
-    back = input('\nWould you like to go to another calculator? y/n \n')
-    if back == 'y':
-        import app
-        app.run()
-    elif back == 'n':
-        print('OK!')
-    else:
-        back = input('\nInvalid input! Would you like to go to another calculator? y/n \n')
+    print('We will now find exit velocity.')
+    Mo = input('Molecular weight of combustion products: ')
+    y = input('Specific heat ratio (Cp/Cv: ') 
+    R = (1544/Mo) #Gas Constant (ft/deg R) 
+    Ti = input('Temperature at nozzle inlet: ') #TODO
+    Mi = input('Mach number at nozzle inlet: ') #TODO
+    Tc = Ti*(1+(0.5*(y-1))*Mi) #Nozzle stagnation temperature  
+    Pe = input('Flow static pressure at exit: ') #Flow static pressure at exit #TODO
+    Ve = np.sqrt(((2*g*y)/y-1)*R*Tc*(1-(Pe/Pc)**((y-1)/y)))
+    print('Ve: ' + str(Ve))
+
+    print('Next, Gas Weight Flow Rate')
+    Wdot = At*Pc*np.sqrt((g*y*(2/(y+1))**(y+1)/(y-1))/(R*Tc))
+    print('Wdot: ' + str(Wdot))
+
+    print('Next, Nozzle Exit Area and Nozzle Expansion Ratio')
+    Ae = ((2/(y+1))**1/(y+1))*((Pc/Pe)**(1/y)) #Area of nozzle exit
+    E = Ae/At #Expansion Ratio
+    print('Ae: ' + str(Ae))
+    print('Fancy E: ' + str(E))
+
+    print('Next, pressure at the throat')
+    Pt = pc*((2/(y+1))**(y/(y-1))) #Throat Pressure
+    print('Pt: ' + str(Pt))
+
+    print('Next, flow velocity at the throat')
+    Vt = np.sqrt(((2*g*y)/(y+1)*R*Tc)) #Flow veolcity at throat
+    print('Vt: ' + str(Vt))
+
+    print('Next, Area at any point between the nozzle inlet and nozzle exit') #TODO make a graph or equation in order to easily model
+    Mx = input() #Mach number at X TODO
+    Ax1 = (At/Mx)*np.sqrt(((1+((y-1)/2)*Mx)/(y+1)/2)**((y+1)/(y-1)))
+    print('Ax1: ' + str(Ax1))
+
+    print('Next, Area at any point between the nozzle inlet and nozzle throat') #TODO make a graph or equation in order to easily model
+    Px = input() #Pressure at X
+    Ax2 = At*((((2/(y+1))*(Pc/Px)**((y-1)/y))**((y+1)/(2*(y-1)))))/np.sqrt((2/(y-1))*((Pc/Px)**((y-1)/y)-1))
+    print('Ax2: ' + str(Ax2))
+
+    print('Next, Area at any point between the nozzle throat and nozzle exit') #TODO make a graph or equation in order to easily model
+    Px1 = input() #Pressure at X
+    Ax3 = At*((((2/(y+1))*(Pc/Px)**(1/y)))/np.sqrt(((y+1)/(y-1))*(1-(Px/Pc)**((y-1)/y))))
+    print('Ax3: ' + str(Ax3))
+
+    print('Next, velocity at any point between nozzle throat and nozzle exit')
+    Vx = np.sqrt(((2*g*y)/(y-1))*R*Tc*(1-(Px/Pc)**((y-1)/y))) #Flow velocity at X
+    print('Vx: ' + str(Vx))
+
+
+    r.restart()
 
