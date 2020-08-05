@@ -5,7 +5,7 @@ def run():
     print("\nWelcome to the Tank Calculator! \n")
     print("Here you can find the volume of each tank including 1/3 ullage in liquid tanks (Vf), volume of each tank excluding 1/3 ullage (Vi), the inner radius of the tank(r), or the height of the tank (h) when you know at least three of these values.\n")
     print("\nChoose the value you wish to calculate for:")
-    print("\n 1: Height from weight and radius. \n 2:Radius from Height and weight.\n 3: Mass needed for LOX/Kerosene given burn time and mdot.\n ")
+    print("\n 1: Height from weight and radius. \n 2:Radius from Height and weight.\n 3: Mass needed for LOX/Kerosene given burn time and mdot.\n ¡")
     solve = input("What are you solving for?\n")
 
 
