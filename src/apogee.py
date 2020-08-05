@@ -32,5 +32,5 @@ def apogee():
     qa = math.sqrt((originalm * 9.8) / k)
     qb = math.sqrt(9.8 * k / m )
     ta = math.atan(v / qa) / qb
-    return format(altitude, '0.3f') + " feet coasting time of " + format(ta, '0.3f') + " seconds and a velocity of mach " + format(v * 0.00291545, '0.3f')
+    return format(altitude, '0.3f') + " feet coasting time of " + format(ta, '0.3f') + " seconds and a velocity of mach " + format(v * 0.00291545, '0.3f') + " and a boosted altitude of " + format(y1 * 3.28084, "0.3f")
 
