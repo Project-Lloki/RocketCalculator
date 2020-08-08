@@ -1,37 +1,36 @@
 #Calculate apogee from mass, thrust and other fun things
 import math
+import numpy
 
 def run():
     print("\nWelcome to the Apogee Calculator! \n")
     print("Here you can find the apogee given dry mass, propellant/oxidizer combined mass and thrust, the optimal dry mass for a given apogee, or the optimal thrust numbers for a mass and burn time \n")
-    print("\nChoose the value you wish to calculate for:")
-    print("\n 1: Apogee from thrust, burn time, mass, estimated frontal area \n 2:Radius from Height and weight\n")
-    solve = input("What are you solving for?\n")
+    print(apogee())
 
-    def apogee():
-        dryMass = float(input("Dry mass in lbs : "))
-        propellantMass = float(input("propelland + oxidizer mass in lbs : "))
-        burnTime = float(input("Burn time in seconds : "))
-        thrust = float(input("Thrust in lbf "))
-        frontalArea = float(input("Frontal area of rocket : "))
-        dragCoeff = float(input("Drag Coefficient (if you don't know, 0.5 is a good estimate)"))
-
-
-    def radius():
-        h = float(input("height-inches:")) / 12
-        weight = float(input("weight in pounds:"))
-        loxOrKero = input(" LOX or Kerosene \n 1: LOX, 2: Kerosene: \n")
-        if loxOrKero == '1':
-            volume = 1.5 * (weight / loxWeightPerCubedFoot)
-            return format(math.sqrt((volume/(math.pi*h))), '0.3f') + " feet or " + format(math.sqrt((volume/(math.pi*h))) * 12, '0.3f') + " inches"
-        elif loxOrKero == '2':
-            volume = 1.5 * (weight / keroseneWeightPerCubedFoot)
-            return format(math.sqrt((volume/(math.pi*h))), '0.3f') + " feet or " + format(math.sqrt((volume/(math.pi*h))) * 12, '0.3f') + " inches"
-
-    if(solve == '1'):
-        print(apogee())
-    elif(solve == '2'):
-        print(radius())
-    else :
-        print("Invalid input, use 1 or 2 + ENTER")
+def apogee():
+    #Please note, the reason the units are asked for in imperial is because that is what is more commonly used by us, however these must be converted to metric in the codebase.
+    #AS FOLLOWS IS METRIC. DOTH NOT BE FOOLED!
+    m = float(input("Dry mass in lbs : ")) * 0.453592
+    M = float(input("total rocket + propellant + oxidizer mass in lbs : ")) * 0.453592
+    t = float(input("Burn time in seconds : "))
+    T = float(input("Thrust in lbf : ")) * 4.44822
+    A = float(input("Frontal area of rocket in square inches : ")) * 0.00064516
+    Cd = float(input("Drag Coefficient (if you don't know, 0.5 is a good estimate) : "))
+    originalm = m
+    m = m + (M-m) / 2
+    mg = m * 9.8
+    Mg = M * 9.8
+    rho = (1.112 + 0.1948) / 2
+    k = 0.5 * rho * Cd * A
+    q = math.sqrt((T-Mg)/k)
+    x = (2 * k * q ) / M
+    #math.exp IS DENOTATION FOR e^x
+    v = q * (1 - math.exp(-1 * x * t ) / (1 + math.exp(-1 * x * t )))
+    y1 = ((-1 * m) / (2 * k )) * numpy.log((T - mg - k * v ** 2) / (T - mg))
+    yc = (originalm / (2 * k)) * (numpy.log((originalm * 9.8 + k * v ** 2) / (originalm * 9.8)))
+    altitude = (y1 + yc) * 3.28084
+    qa = math.sqrt((originalm * 9.8) / k)
+    qb = math.sqrt(9.8 * k / m )
+    ta = math.atan(v / qa) / qb
+    return format(altitude, '0.3f') + " feet coasting time of " + format(ta, '0.3f') + " seconds and a velocity of mach " + format(v * 0.00291545, '0.3f') + " and a boosted altitude of " + format(y1 * 3.28084, "0.3f")
 

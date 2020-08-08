@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c5167b03-cb83-4f98-be4f-11b8e3fb1383" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/apogee.py" afterDir="false" />
+    <list default="true" id="c5167b03-cb83-4f98-be4f-11b8e3fb1383" name="Default Changelist" comment="started apogee calc. temporary commit.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tanks.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tanks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/apogee.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/apogee.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/apogee.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
+            <state relative-caret-position="-98">
+              <caret line="15" column="37" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -40,18 +37,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/tanks.py" />
-        <option value="$PROJECT_DIR$/src/app.py" />
         <option value="$PROJECT_DIR$/src/apogee.py" />
       </list>
     </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="784" />
   </component>
   <component name="ProjectId" id="1eViPf0M2lhLCjFKNvjeL3SEHnn" />
   <component name="ProjectLevelVcsManager">
@@ -63,18 +51,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
-            <path>
-              <item name="RocketCalculator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="RocketCalculator" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="RocketCalculator" type="b2602c69:ProjectViewProjectNode" />
-              <item name="RocketCalculator" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
             <path>
               <item name="RocketCalculator" type="b2602c69:ProjectViewProjectNode" />
               <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
@@ -83,7 +63,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="ProjectViewState">
@@ -109,6 +88,18 @@
       </list>
     </option>
   </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -121,7 +112,9 @@
       <updated>1594413137792</updated>
       <workItem from="1594413139115" duration="398000" />
       <workItem from="1594603693957" duration="2648000" />
-      <workItem from="1594660558835" duration="4318000" />
+      <workItem from="1594660558835" duration="4483000" />
+      <workItem from="1596395304934" duration="4770000" />
+      <workItem from="1596599131471" duration="3123000" />
     </task>
     <task id="LOCAL-00001" summary="pt 3.">
       <created>1594607979012</created>
@@ -151,16 +144,23 @@
       <option name="project" value="LOCAL" />
       <updated>1594662642654</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="started apogee calc. temporary commit.">
+      <created>1594676088655</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1594676088655</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8010000" />
+    <option name="totallyTimeSpent" value="1264000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
+    <frame x="0" y="0" width="1366" height="768" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16544656" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.16544656" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -174,7 +174,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3294964" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.43513513" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -191,56 +191,17 @@
     <MESSAGE value="pt 3." />
     <MESSAGE value="tank calculators complete, added radius from height+weight and fixed unit conversion errors." />
     <MESSAGE value="refactoring last commit." />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring last commit." />
+    <MESSAGE value="started apogee calc. temporary commit." />
+    <option name="LAST_COMMIT_MESSAGE" value="started apogee calc. temporary commit." />
   </component>
   <component name="WindowStateProjectService">
     <state x="372" y="194" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1594413247878">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="372" y="194" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.768@0.0.1366.768" timestamp="1594413247878" />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/injector.py" />
-    <entry file="file://$PROJECT_DIR$/src/tanks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="43" selection-start-line="1" selection-end-line="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/injector_nasa.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="8" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" column="52" lean-forward="true" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="52" />
-          <folding>
-            <element signature="e#37#52#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/apogee.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
+    <state x="192" y="23" key="SettingsEditor" timestamp="1596599372527">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="192" y="23" key="SettingsEditor/0.0.1366.768@0.0.1366.768" timestamp="1596599372527" />
   </component>
 </project>
