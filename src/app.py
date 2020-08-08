@@ -1,4 +1,5 @@
 #Run file for all of the calculators
+#Equations rearraged through the use of sympy
 import cc as c1
 import injector_nasa as c2
 import tanks as c3

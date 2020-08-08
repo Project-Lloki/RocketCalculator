@@ -1,8 +1,10 @@
-#Calculate combustion chamber parameters, with values given
+# Calculate combustion chamber parameters, with values given
 # F = Cf*Pc*At
 import restart as r
 import numpy as np
 import sympy as sym
+import excel as e
+
 
 def run():
     print("\nWelcome to the Combustion Chamber Calculator! \n")
@@ -10,128 +12,149 @@ def run():
     print("1: Metric 2: Imperial\n")
     units = input("What units do you use: ")
     if(units == '1'):
-        FU = 'N' 
+        FU = 'N'
         PU = ''
         AU = ''
         g = 9.81
     elif(units == '2'):
-        FU = 'Lbf' 
-        PU = 'psi' 
+        FU = 'Lbf'
+        PU = 'psi'
         AU = 'in^2'
+        VU = 'ft/sec'
+        MdU = 'Lbm/sec'
+        TU = 'R°'
         g = 32.2
-    else: units = input("Invalid input:")
+        DU = 'in'
+    else:
+        units = input("Invalid input:")
 
-    print("\nChoose the value you wish to calculate for:")
-    print("\n 1: F (thrust) \n 2: Cf (Coefficient of thrust) \n 3: Pc (Chamber Pressure) \n 4: At (Throat area)\n")
-    solve = input("What are you solving for? ")
+    pi = np.pi
 
-    def thrust():
-        Cf = float(input("Cf:"))
-        Pc = float(input("Pc (" + PU + "):"))
-        At = float(input("At(" + AU + "):"))
-        F = Cf*Pc*At
-        return F
+    print("\nFirst, we solve for the Area of the Throat:")
 
-    def coefficient():
-        F = float(input("F(" + FU + "):"))
-        Pc = float(input("Pc (" + PU + "):"))
-        At = float(input("At(" + AU + "):"))
-        k = Pc*At
-        Cf = F/k
-        return Cf
+    F = float(input("F (" + FU + "): "))
+    Cf = float(input("Cf: "))
+    Pc = float(input("Pc estimate (" + PU + "): "))
+    At = F/(Cf*Pc)
+    print("At: " + str(At) + ' ' + AU)
 
-    def pressure():
-        F = float(input("F(" + FU + "):"))
-        Cf = float(input("Cf:"))
-        At = float(input("At(" + AU + "):"))
-        k = Cf*At
-        Pc = F/k
-        return Pc
+    print('\nFor this, first we will determine total mass flow (mdot)')
+    Is = float(input('Isp (specific impulse): '))
+    if(units == '1'):
+        mdot = F/(go*Is)
+    if(units == '2'):
+        mdot = F/Is
+    print('\nmdot = ' + str(mdot) + ' ' + MdU)
 
-    def throat():
-        F = float(input("F(" + FU + "):"))
-        Cf = float(input("Cf:"))
-        Pc = float(input("Pc (" + PU + "):"))
-        k = Cf*Pc
-        At = F/k
-        return At
-
-    if(solve == 1):
-        print(thrust())
-    elif(solve == 2):
-        print(coefficient())
-    elif(solve == 3):
-        print(pressure())
-    elif(solve == 4):
-        print(throat())
-
-    print('\nNext, we will solve for chamber pressure, we will need c*, At and mdot for this')
-    cstar = float(input('c* (effective exhaust velocity): '))
-    At = float(input('At (throat area): '))
-    # if(units == '1'):
-    #     c = cstar*mdot
-    #     print('mdot')
-    # else: 
-    #     c = cstar*imdot
-    #     print('imdot')
-    Pc = cstar/At
-    print('Chamber pressure: ' + str(Pc)) #TODO fix this
-    
-    print('We will now find exit velocity.')
-    Mo = float(input('Molecular weight of combustion products: '))
+    print('\nWe will now find exit velocity.')
+    Mo = float(input('Molecular weight of combustion products, 23.3M: '))
     y = float(input('Specific heat ratio (Cp/Cv), 1.24: '))
-    R = (1544/Mo) #Gas Constant (ft/deg R) 
-    Tc = float(input('Temperature of combustion: '))
-    #Mi = input('Mach number at nozzle inlet (usually range between 0.15 and 0.45): ') #equation: vi/ai (flow velocity/velocity of sound)
-    #Tc = Ti*(1+(0.5*(y-1))*Mi) #Nozzle stagnation temperature  
-    #Pe = float(input('Flow static pressure at exit: ')) #Flow static pressure at exit #TODO find equation
-    #Ve = V, Tc = T, R = R, Pe = E, Pc = C, y=y
-    #Ve = np.sqrt(((2*g*y)/y-1)*R*Tc*(1-(Pe/Pc)**((y-1)/y))) 
-    V, T, R, E, C, y, g = sym.symbols('V T R E C y g')
-    expr = sym.sqrt(((2*g*y)/y-1)*R*C*(1-(E/C)**((y-1)/y))) 
-    print('expr: ' + str(expr))
-    print(sym.solve(E))
-    # print('Ve: ' + str(Ve))
+    R = (1544/Mo)  # Gas Constant (ft/deg R)
+    Tc = float(input('Temperature of combustion (' + TU + '): '))
+
+    # Pc = Pi[1+0.5(y-1)Mi]^y/y-1, Pi = Pinj[1+y*Mi^2]
+    #Ve = np.sqrt(((2*g*y)/y-1)*R*Tc*(1-(Pe/Pc)**((y-1)/y)))
+    #At = (((y+1)/(y-1))*(1-(Pe/Pc)**((y-1)/y)))**(1/2)
+
+    # TODO add print outs for these
+    Pt = Pc*(2/(y+1))**(y/(y-1))  # pressure at the throat
+    print('Pt: ' + str(Pt))
+    Tt = Tc*(Pt/Pc)**((y-1)/y)  # temperature at the throat
+    Vt = (R*Tt)/(144*Pt)  # flow specific volume at the throat
+    at = np.sqrt(g*y*R*Tt)  # velocity of sound at the throat
+    # flow velocity at the throat
+    vt = np.sqrt(((2*g*y)/(y-1))*R*Tc*(1-(Pt/Pc)**((y-1)/y)))
+    Mt = vt/at  # Mach number at the throat
+    print('vt: ' + str(vt))
+    print('Mt (this number should be one): ' + str(Mt))
+
+    At2 = (144*mdot*Vt)/vt  # double check throat area with secondary equation
+    print('At2: ' + str(At2) + ' ' + AU)
+
+    # Pe1 = Pc*(1-(((y-1)*At**2))/(y+1))**(y/(y-1)) #exit pressure (written equation)
+    # Pe2 = (Pc**((y - 1.0)/y)*(-At**2*y + At**2 + y + 1.0)/(y + 1.0))**(y/(y - 1)) #exit pressure (sympy equation)
+    # Pe = (Pc*(2**(-1/(y - 1))*At*E*(1/(y + 1))**(-1/(y - 1)))**(-y))
+    Pe = float(input('Pe (as close as you can get to outside pressure): '))
+
+    # flow velocity at the nozzle exit
+    ve = np.sqrt(((2*g*y)/(y-1))*R*Tc*(1-(Pe/Pc)**((y-1)/y)))
+    Te = Tc*((Pe/Pc)**((y-1)/y))
+    ae = np.sqrt(g*y*R*Te)
+    Me = ve/ae
+    print('ve: ' + format(ve.real) + ' ' + VU)
+    print('Te: ' + str(Te))
+    print('ae: ' + str(ae))
+    print('Me: ' + str(Me))
+
     #E = [(C**(-1/y)*(2*C*R*g - C*R - V**2)/(R*(2*g - 1)))**(y/(y - 1))]
 
-    print('Next, Gas Weight Flow Rate')
+    # weight flow rate TODO add units
     Wdot = At*Pc*np.sqrt((g*y*(2/(y+1))**(y+1)/(y-1))/(R*Tc))
     print('Wdot: ' + str(Wdot))
 
-    print('Next, Nozzle Exit Area and Nozzle Expansion Ratio')
-    At = (((y+1)/(y-1))*(1-(Pe/Pc)^((y-1)/y)))^(1/2)
-    Ae = ((2/(y+1))**1/(y-1))*((Pc/Pe)**(1/y)) #Area of nozzle exit
-    E = Ae/At #Expansion Ratio
-    print('Ae: ' + str(Ae))
-    print('Fancy E: ' + str(E))
+    MiL = float(input('The lower end of Mi: '))
+    MiH = float(input('The higher end of Mi: '))
+    TiL = Tc/(1+(0.5*(y-1))*(MiL**2))  # Temperature at nozzle inlet (low)
+    TiH = Tc/(1+(0.5*(y-1))*(MiH**2))  # Temperature at nozzle inlet (high)
+    aiL = np.sqrt(g*y*R*TiL)  # velocity of sound at the nozzle inlet (low)
+    aiH = np.sqrt(g*y*R*TiH)  # velocity of sound at the nozzle inlet (high)
+    viL = MiL*aiL  # flow velocity out of the nozzle inlet (low)
+    viH = MiH*aiH  # flow velocity out of the nozzle inlet (high)
+    PinjL = Pc*((1+(y*(MiL**2)))/((1+((y+1)/2)*(MiL**2))**(y/(y-1))))
+    PiL = PinjL/(1+(y*(MiL**2)))
+    PinjH = Pc*((1+(y*(MiH**2)))/((1+((y+1)/2)*(MiH**2))**(y/(y-1))))
+    PiH = PinjH/(1+(y*(MiH**2)))
+    ViL = (R*TiL)/(144*PiL)
+    ViH = (R*TiH)/(144*PiH)
 
-    print('Next, pressure at the throat')
-    Pt = pc*((2/(y+1))**(y/(y-1))) #Throat Pressure
-    print('Pt: ' + str(Pt))
+    AiL = (144*Wdot*ViL)/viL
+    AiH = (144*Wdot*ViH)/viH
+    DiL = 2*(np.sqrt(AiL/pi))
+    DiH = 2*(np.sqrt(AiH/pi))
+    print('AiL: ' + str(AiL))
+    print('AiH: ' + str(AiH))
+    print('DiL: ' + str(DiL))
+    print('DiH: ' + str(DiH))
 
-    print('Next, flow velocity at the throat')
-    Vt = np.sqrt(((2*g*y)/(y+1)*R*Tc)) #Flow veolcity at throat
-    print('Vt: ' + str(Vt))
+    Ae = ((2/(y+1))**1/(y-1))*((Pc/Pe)**(1/y))  # Area of nozzle exit
+    ε = Ae/At  # Expansion Ratio
+    print('Ae: ' + format(Ae.real) + ' ' + AU)
+    De = 2*(np.sqrt(Ae/pi))
+    print('De: ' + str(De) + ' ' + 'in')
+    print('ε: ' + format(ε.real))
 
-    print('Next, Area at any point between the nozzle inlet and nozzle exit') #TODO make a graph or equation in order to easily model
-    Mx = input() #Mach number at X TODO find equaiton
-    Ax1 = (At/Mx)*np.sqrt(((1+((y-1)/2)*Mx)/(y+1)/2)**((y+1)/(y-1)))
-    print('Ax1: ' + str(Ax1))
+    # print('\nNext, Area at any point between the nozzle inlet and nozzle exit') #TODO make a graph or equation in order to easily model
+    # Px = None #TODO
+    # Tx = Tc*((Px/Pc)**((y-1)/y))
+    # Mx = vx/ax #TODO make a vx and ax calculator
+    # Ax1 = (At/Mx)*np.sqrt(((1+((y-1)/2)*Mx)/(y+1)/2)**((y+1)/(y-1)))
+    # print('Ax1: ' + str(Ax1) + ' ' + AU)
 
-    print('Next, Area at any point between the nozzle inlet and nozzle throat') #TODO make a graph or equation in order to easily model
-    Px = input() #Pressure at X TODO find equation
-    Ax2 = At*((((2/(y+1))*(Pc/Px)**((y-1)/y))**((y+1)/(2*(y-1)))))/np.sqrt((2/(y-1))*((Pc/Px)**((y-1)/y)-1))
-    print('Ax2: ' + str(Ax2))
+    # # expr = ((((2/(y+1))**(1/(y-1)))*(Pc/Pe)**(1/y))/(sqrt(((y+1)/(y-1))*(1-(Pe/Pc)**((y-1)/y)))))
 
-    print('Next, Area at any point between the nozzle throat and nozzle exit') #TODO make a graph or equation in order to easily model
-    Px1 = input() #Pressure at X TODO find equation
-    Ax3 = At*((((2/(y+1))*(Pc/Px)**(1/y)))/np.sqrt(((y+1)/(y-1))*(1-(Px/Pc)**((y-1)/y))))
-    print('Ax3: ' + str(Ax3))
+    # print('\nNext, Area at any point between the nozzle inlet and nozzle throat') #TODO make a graph or equation in order to easily model
+    # Px = float(input('Pressure at X (TODO): ')) #Pressure at X TODO find equation
+    # Ax2 = At*((((2/(y+1))*(Pc/Px)**((y-1)/y))**((y+1)/(2*(y-1)))))/np.sqrt((2/(y-1))*((Pc/Px)**((y-1)/y)-1))
+    # print('Ax2: ' + str(Ax2) + ' ' + AU)
 
-    print('Next, velocity at any point between nozzle throat and nozzle exit')
-    Vx = np.sqrt(((2*g*y)/(y-1))*R*Tc*(1-(Px/Pc)**((y-1)/y))) #Flow velocity at X
-    print('Vx: ' + str(Vx))
+    # print('\nNext, Area at any point between the nozzle throat and nozzle exit') #TODO make a graph or equation in order to easily model
+    # Px1 = float(input('Pressure at X (TODO): ')) #Pressure at X TODO find equation
+    # Ax3 = At*((((2/(y+1))*(Pc/Px)**(1/y)))/np.sqrt(((y+1)/(y-1))*(1-(Px/Pc)**((y-1)/y))))
+    # print('Ax3: ' + str(Ax3) + ' ' + AU)
 
+    # print('\nNext, velocity at any point between nozzle throat and nozzle exit')
+    # vx = np.sqrt(((2*g*y)/(y-1))*R*Tc*(1-(Px/Pc)**((y-1)/y))) #Flow velocity at X
+    # print('Vx: ' + str(vx) + ' ' + VU)
+
+    variables = [F, Cf, Pc, At, At2, Mo, y, R, Tc, Pt, Tt, Vt, at, vt, Mt, Pe, ve, Te, ae, Me, Wdot, MiL,
+                 MiH, TiL, TiH, aiL, aiH, viL, viH, PinjL, PinjH, PiL, PiH, ViL, ViH, AiL, AiH, DiL, DiH, Ae, ε, De]
+    names = ['F (Thrust)', 'Cf (Coefficient of Thrust)', 'Pc (Chamber Pressure)', 'At (Throat Area)', 'At2 (Throat Area 2)', 'M (Molecular Weight)', 'y (Specific Heat ratio)', 'R (Gas constant)', 'Tc (Chamber Temperature)', 'Pt (Throat Pressure)', 'Tt (Throat Temperature)', 'Vt (Throat Flow Volume)', 'a (Throat Sound Velocity)', 'vt (Throat Flow Velocity)', 'Mt (Throat Mach Number)',  'Pe (Exit Pressure)', 've (Exit Flow Velocity)', 'Te (Exit Temperature)', 'ae (Exit Sound Velocity)', 'Me (Exit Mach Number)', 'Wdot (Weight Flow Rate)', 'Mi_Lower (Lower Inlet Mach Number)', 'Mi_Higher (Higher Inlet Mach Number)',
+             'Ti_Lower (Lower Inlet Temperature)', 'Ti_Higher (Higher Inlet Temperature)', 'ai_Lower (Lower Inlet Sound Velocity)', 'ai_Higher (Higher Inlet Sound Velocity)', 'vi_Lower (Lower Inlet Flow Velocity)', 'vi_Higher (Higher Inlet Flow Velocity)', 'Pinj_Lower (Lower Injector Pressure)', 'Pinj_Higher (Higher Injector Pressure)', 'Pi_Lower (Lower Inlet Pressure)', 'Pi_Higher (Higher Inlet Pressure)', 'Vi_Lower (Lower Inlet Flow Volume)', 'Vi_Higher (Higher Inlet Flow Volume)', 'Ai_Lower (Lower Inlet Area)', 'Ai_Higher (Higher Inlet Area)', 'Di_Lower (Lower Inlet Diameter)', 'Di_Higher (Higher Inlet Diameter)', 'Ae (Exit Area)', 'ε (Expansion Ratio)', 'De (Exit Diameter)']
+    equations = e.pretty(['Predetermined', 'Propellant Info', 'Predetermined', 'At = F/(Cf*Pc)', 'At2 = (144*mdot*Vt)/vt', 'Propellant Info', 'Propellant Info', 'R = (1544/M)', 'Temp of Combustion', 'Pt = Pc*(2/(y+1))**(y/(y-1))', 'Tt = Tc*(Pt/Pc)**((y-1)/y)', 'Vt = (R*Tt)/(144*Pt)', 'at = np.sqrt(g*y*R*Tt)', 'vt = np.sqrt(((2*g*y)/(y-1))*R*Tc*(1-(Pt/Pc)**((y-1)/y)))', 'Mt = vt/at', 'Approximate Outside Pressure', 've = np.sqrt(((2*g*y)/(y-1))*R*Tc*(1-(Pe/Pc)**((y-1)/y)))', 'Te = Tc*((Pe/Pc)**((y-1)/y))', 'ae = np.sqrt(g*y*R*Te)', 'Me = ve/ae', 'Wdot = At*Pc*np.sqrt((g*y*(2/(y+1))**(y+1)/(y-1))/(R*Tc))', 'Predetermined Estimate',
+                          'Predetermined Estimate', 'TiL = Tc/(1+(0.5*(y-1))*(MiL**2))', 'TiH = Tc/(1+(0.5*(y-1))*(MiH**2))', 'aiL = np.sqrt(g*y*R*TiL)', 'aiH = np.sqrt(g*y*R*TiH)', 'viL = MiL*aiL', 'viH = MiH*aiH', 'PinjL = Pc*((1+(y*(MiL**2)))/((1+((y+1)/2)*(MiL**2))**(y/(y-1))))', 'PiL = PinjL/(1+(y*(MiL**2)))', 'PinjH = Pc*((1+(y*(MiH**2)))/((1+((y+1)/2)*(MiH**2))**(y/(y-1))))', 'PiH = PinjH/(1+(y*(MiH**2)))', 'ViL = (R*TiL)/(144*PiL)', 'ViH = (R*TiH)/(144*PiH)', 'AiL = (144*Wdot*ViL)/viL', 'AiH = (144*Wdot*ViH)/viH', 'DiL = 2*(np.sqrt(AiL/pi))', 'DiH = 2*(np.sqrt(AiH/pi))', 'Ae = ((2/(y+1))**1/(y-1))*((Pc/Pe)**(1/y))', 'ε = Ae/At', 'De = 2*(np.sqrt(Ae/pi))'])
+
+    sheet = input('Would you like a excel spreadsheet? y/n ')
+    if sheet == 'y':
+        e.sheet(variables, names, equations, 'CC')
 
     r.restart()
-
