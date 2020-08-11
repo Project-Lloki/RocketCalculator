@@ -5,3 +5,4 @@
 *.xls
 *.vscode
 *.idea
+*/api*
