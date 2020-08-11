@@ -1,9 +1,8 @@
-#Run file for all of the calculators
-#Equations rearraged through the use of sympy
 import cc as c1
 import injector_nasa as c2
 import tanks as c3
 import apogee as c4
+
 
 def run():
     print('\nWelcome to the RocketCalculator!\n')
@@ -21,5 +20,5 @@ def run():
     else:
         print('choose a proper calculator')
 
-run()
 
+run()

@@ -8,7 +8,8 @@ def restart():
         import app
         app.run()
     elif back == 'n':
-        e.wb.save('Rocket Parameters.xls')
+        if e.used:
+            e.wb.save('Rocket Parameters.xls')
         print('OK!')
     else:
         print('Invalid! Try Again')
