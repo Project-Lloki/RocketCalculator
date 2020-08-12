@@ -76,7 +76,3 @@ def run():
         e.sheet(variables, names, units, equations, 'Tanks')
 
     re.restart()
-
-
-# ! For Debuging
-# run()

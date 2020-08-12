@@ -1,13 +1,17 @@
 system = FU = PU = AU = VU = vU = VoU = Mo = ang = aU = MdU = TU = g = DU = pgU = WU = TimeU = None
 
+unstarted = True
 
-def system():
-    global system
-    print("1: Metric 2: Imperial\n")
-    system = input("What units do you use: ")
+
+def init():
+    global unstarted
 
     def set_units():
-        global FU, PU, AU, VU, vU, VoU, Mo, ang, MdU, aU, TU, g, DU, pgU, WU, TimeU
+        global system, FU, PU, AU, VU, vU, VoU, Mo, ang, MdU, aU, TU, g, DU, pgU, WU, TimeU
+
+        print("1: Metric 2: Imperial\n")
+        system = input("What units do you use: ")
+
         if(system == '1'):
             FU = 'N'
             PU = ''
@@ -33,4 +37,7 @@ def system():
         else:
             print("Invalid input!\n")
             set_units()
-    set_units()
+
+    if unstarted:
+        unstarted = False
+        set_units()

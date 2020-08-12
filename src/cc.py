@@ -24,7 +24,7 @@ def run():
     Is = float(input('Isp (specific impulse): '))
     if(u.system == '1'):
         mdot = F/(u.g*Is)
-    if(u.system == '2'):
+    else:
         mdot = F/Is
     print('\nmdot = ' + str(mdot) + ' ' + u.MdU)
 
@@ -151,7 +151,3 @@ def run():
         e.sheet(variables, names, units, equations, 'CC')
 
     r.restart()
-
-
-#! For Debuging
-# run()

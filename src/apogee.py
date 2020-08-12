@@ -40,6 +40,7 @@ def run():
     print(format(altitude, '0.3f') + " feet coasting time of " + format(ta, '0.3f') + " seconds and a velocity of mach " +
           format(v * 0.00291545, '0.3f') + " and a boosted altitude of " + format(y1 * 3.28084, "0.3f"))
 
+    # * Excel output
     variables = [m, M, t, T, A, Cd, rho,
                  k, q, x, v, y1, yc, altitude, qa, qb, ta]
     names = ['Dry Mass', 'Total Mass', 'Burn Time', 'F (Thrust)', 'Frontal Area (A)', 'Drag Coefficient (Cd)', 'Air Resistance (rho)', 'Abstract Variable k', 'Abstract Variable q', 'Abstract Variable x',
