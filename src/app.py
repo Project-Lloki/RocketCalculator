@@ -1,11 +1,21 @@
 import cc as c1
-import injector_nasa as c2
+import injector as c2
 import tanks as c3
 import apogee as c4
+import units as u
+
+unstarted = True
 
 
 def run():
+    global unstarted
+
     print('\nWelcome to the RocketCalculator!\n')
+
+    if unstarted:
+        unstarted = False
+        u.system()
+
     print('1: Combustion Chamber \n2: Injector Design \n3: Tanks\n4: Apogee Optimization')
     calculator = input('\nChoose your calculator: ')
 

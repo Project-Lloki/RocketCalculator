@@ -4,6 +4,13 @@ from xlwt import Workbook
 wb = Workbook()
 used = False
 
+# * Commonly Used
+
+PE = 'Predetermined Estimate'
+P = 'Predetermined'
+PI = 'Propellant Info'
+NU = ' '
+
 
 def sheet(vars, names, units, eqs, s_name):
     global used

@@ -4,14 +4,12 @@ import sympy as sym
 import excel as e
 import units as u
 
-# TODO add print outs
+# TODO add print outs for everything
 
 
 def run():
     print("\nWelcome to the Combustion Chamber Calculator! \n")
     print("Here you can find thrust (F), coefficient of thrust (Cf), Chamber Pressure (Pc) or Throat Area (At) when you know at least three of these values.\n")
-
-    u.system()
 
     pi = np.pi
 
@@ -109,7 +107,7 @@ def run():
     LT = float(input('Ablative Liner Thickness: '))
     TT = float(input('Tube Thickness: '))
     IDc = ODc - (2*LT) - (2*TT)
-    Lc = Vc/(pi*(IDc**2))
+    Lc = Vc/(pi*((IDc/2)**2))
     print('Chamber Inner Diameter: ' + str(IDc))
     print('Chamber Length: ' + str(Lc))
     # ? surface area of the nozzle pdf page 101
@@ -129,7 +127,7 @@ def run():
     Ln = (Rt*((np.sqrt(ε)-1))+(R1*sec)) / tan
     print('Optimum Conical Nozzle length (Ln): ' + str(Ln))
     BLn_8 = Ln * 0.8
-    BLn_75 = Ln * 0.75
+    BLn_75 = Ln * 0.752
     BLn_7 = Ln * 0.7
     print('80% Bell Nozzle Length (Ln): ' + str(BLn_8))
     print('75% Bell Nozzle Length (Ln): ' + str(BLn_75))
@@ -139,19 +137,14 @@ def run():
 
     # * Excel Output
 
-    PE = 'Predetermined Estimate'
-    P = 'Predetermined'
-    PI = 'Propellant Info'
-    NU = 'Unitless'
-
     variables = [F, Cf, Pc, At, At2, Mo, y, R, Tc, Pt, Tt, Vt, at, vt, Mt, Pe, ve, Te, ae, Me, Wdot, MiL, MiH, TiL, TiH, aiL, aiH, viL, viH, PinjL, PinjH,
                  PiL, PiH, ViL, ViH, AiL, AiH, DiL, DiH, Ae, ε, De, Lstar, Vc, ODc, LT, TT, IDc, Lc, Rt, R1, R2, ang, λ, Ln, BLn_8, BLn_75, BLn_7, θn, θe]
     names = ['F (Thrust)', 'Cf (Coefficient of Thrust)', 'Pc (Chamber Pressure)', 'At (Throat Area)', 'At2 (Throat Area 2)', 'M (Molecular Weight)', 'y (Specific Heat ratio)', 'R (Gas constant)', 'Tc (Chamber Temperature)', 'Pt (Throat Pressure)', 'Tt (Throat Temperature)', 'Vt (Throat Flow Volume)', 'a (Throat Sound Velocity)', 'vt (Throat Flow Velocity)', 'Mt (Throat Mach Number)',  'Pe (Exit Pressure)', 've (Exit Flow Velocity)', 'Te (Exit Temperature)', 'ae (Exit Sound Velocity)', 'Me (Exit Mach Number)', 'Wdot (Weight Flow Rate)', 'Mi_Lower (Lower Inlet Mach Number)', 'Mi_Higher (Higher Inlet Mach Number)',
              'Ti_Lower (Lower Inlet Temperature)', 'Ti_Higher (Higher Inlet Temperature)', 'ai_Lower (Lower Inlet Sound Velocity)', 'ai_Higher (Higher Inlet Sound Velocity)', 'vi_Lower (Lower Inlet Flow Velocity)', 'vi_Higher (Higher Inlet Flow Velocity)', 'Pinj_Lower (Lower Injector Pressure)', 'Pinj_Higher (Higher Injector Pressure)', 'Pi_Lower (Lower Inlet Pressure)', 'Pi_Higher (Higher Inlet Pressure)', 'Vi_Lower (Lower Inlet Flow Volume)', 'Vi_Higher (Higher Inlet Flow Volume)', 'Ai_Lower (Lower Inlet Area)', 'Ai_Higher (Higher Inlet Area)', 'Di_Lower (Lower Inlet Diameter)', 'Di_Higher (Higher Inlet Diameter)', 'Ae (Exit Area)', 'ε (Expansion Ratio)', 'De (Exit Diameter)', 'Characteristic Length (L*)', 'Chamber Volume (Vc)', 'Chamber Outer Diameter (ODc)', 'Ablative Liner Thickness (LT)', 'Chamber Tube Thickness (TT)', 'Chamber Inner Diameter (IDc)', 'Chamber Length (Lc)', 'Throat Radius (Rt)', 'Radius Before Throat (R1)', 'Radius After Throat (R2)', 'Connical Half Angle', 'Lambda (λ)', 'Connical Nozzle Length (Ln)', '80% Bell Nozzle Length (BLn_8)', '75* Bell Nozzle Length (BLn_75)', '70% Bell Nozzle Length (BLn_7)', 'Parabola Entry Angle (θn)', 'Parabola Exit Angle (θe)']
-    equations = e.pretty([P, PI, P, 'At = F/(Cf*Pc)', 'At2 = (144*mdot*Vt)/vt', PI, PI, 'R = (1544/M)', 'Temp of Combustion', 'Pt = Pc*(2/(y+1))**(y/(y-1))', 'Tt = Tc*(Pt/Pc)**((y-1)/y)', 'Vt = (R*Tt)/(144*Pt)', 'at = np.sqrt(g*y*R*Tt)', 'vt = np.sqrt(((2*g*y)/(y-1))*R*Tc*(1-(Pt/Pc)**((y-1)/y)))', 'Mt = vt/at', 'Approximate Outside Pressure', 've = np.sqrt(((2*g*y)/(y-1))*R*Tc*(1-(Pe/Pc)**((y-1)/y)))', 'Te = Tc*((Pe/Pc)**((y-1)/y))', 'ae = np.sqrt(g*y*R*Te)', 'Me = ve/ae', 'Wdot = At*Pc*np.sqrt((g*y*(2/(y+1))**(y+1)/(y-1))/(R*Tc))', PE, PE, 'TiL = Tc/(1+(0.5*(y-1))*(MiL**2))', 'TiH = Tc/(1+(0.5*(y-1))*(MiH**2))', 'aiL = np.sqrt(g*y*R*TiL)', 'aiH = np.sqrt(g*y*R*TiH)', 'viL = MiL*aiL', 'viH = MiH*aiH', 'PinjL = Pc*((1+(y*(MiL**2)))/((1+((y+1)/2)*(MiL**2))**(y/(y-1))))',
-                          'PiL = PinjL/(1+(y*(MiL**2)))', 'PinjH = Pc*((1+(y*(MiH**2)))/((1+((y+1)/2)*(MiH**2))**(y/(y-1))))', 'PiH = PinjH/(1+(y*(MiH**2)))', 'ViL = (R*TiL)/(144*PiL)', 'ViH = (R*TiH)/(144*PiH)', 'AiL = (144*Wdot*ViL)/viL', 'AiH = (144*Wdot*ViH)/viH', 'DiL = 2*(np.sqrt(AiL/pi))', 'DiH = 2*(np.sqrt(AiH/pi))', 'Ae = ((2/(y+1))**1/(y-1))*((Pc/Pe)**(1/y))', 'ε = Ae/At', 'De = 2*(np.sqrt(Ae/pi))', PE, 'Vc = At*Lstar', P, P, P, 'IDc = ODc - (2*LT) - (2*TT)', 'Lc = Vc/(pi*(IDc**2))', 'Rt = np.sqrt(At/pi)', 'R1 = Rt', 'R2 = 0.382 * Rt ', PE, 'λ=0.5*(1+cos(ang))', 'Ln = (Rt*((np.sqrt(ε)-1))+(R1*cos(ang-1))**-1)) / np.tan(np.(ang))', '0.8 * Ln', '0.75 * Ln', '0.7 * Ln', (PE + 'based off ε and Bell Percentage'), (PE + 'based off ε and Bell Percentage')])
-    units = [u.FU, NU, u.PU, u.AU, u.AU, u.Mo, NU, 'ft/R°', u.TU, u.PU, u.TU, u.VU, u.aU, u.vU, NU, u.PU, u.vU, u.TU, u.aU, NU, 'lb/sec', NU, NU, u.TU, u.TU, u.aU, u.aU, u.vU, u.vU,
-             u.PU, u.PU, u.PU, u.PU, u.VU, u.VU, u.AU, u.AU, u.DU, u.DU, u.AU, NU, u.DU, u.DU, u.VoU, u.DU, u.DU, u.DU, u.DU, u.DU, u.DU, u.DU, u.DU, u.ang, NU, u.DU, u.DU, u.DU, u.DU, u.ang, u.ang]
+    equations = e.pretty([e.P, e.PI, e.P, 'At = F/(Cf*Pc)', 'At2 = (144*mdot*Vt)/vt', e.PI, e.PI, 'R = (1544/M)', 'Temp of Combustion', 'Pt = Pc*(2/(y+1))**(y/(y-1))', 'Tt = Tc*(Pt/Pc)**((y-1)/y)', 'Vt = (R*Tt)/(144*Pt)', 'at = np.sqrt(g*y*R*Tt)', 'vt = np.sqrt(((2*g*y)/(y-1))*R*Tc*(1-(Pt/Pc)**((y-1)/y)))', 'Mt = vt/at', 'Approximate Outside Pressure', 've = np.sqrt(((2*g*y)/(y-1))*R*Tc*(1-(Pe/Pc)**((y-1)/y)))', 'Te = Tc*((Pe/Pc)**((y-1)/y))', 'ae = np.sqrt(g*y*R*Te)', 'Me = ve/ae', 'Wdot = At*Pc*np.sqrt((g*y*(2/(y+1))**(y+1)/(y-1))/(R*Tc))', e.PE, e.PE, 'TiL = Tc/(1+(0.5*(y-1))*(MiL**2))', 'TiH = Tc/(1+(0.5*(y-1))*(MiH**2))', 'aiL = np.sqrt(g*y*R*TiL)', 'aiH = np.sqrt(g*y*R*TiH)', 'viL = MiL*aiL', 'viH = MiH*aiH', 'PinjL = Pc*((1+(y*(MiL**2)))/((1+((y+1)/2)*(MiL**2))**(y/(y-1))))',
+                          'PiL = PinjL/(1+(y*(MiL**2)))', 'PinjH = Pc*((1+(y*(MiH**2)))/((1+((y+1)/2)*(MiH**2))**(y/(y-1))))', 'PiH = PinjH/(1+(y*(MiH**2)))', 'ViL = (R*TiL)/(144*PiL)', 'ViH = (R*TiH)/(144*PiH)', 'AiL = (144*Wdot*ViL)/viL', 'AiH = (144*Wdot*ViH)/viH', 'DiL = 2*(np.sqrt(AiL/pi))', 'DiH = 2*(np.sqrt(AiH/pi))', 'Ae = ((2/(y+1))**1/(y-1))*((Pc/Pe)**(1/y))', 'ε = Ae/At', 'De = 2*(np.sqrt(Ae/pi))', e.PE, 'Vc = At*Lstar', e.P, e.P, e.P, 'IDc = ODc - (2*LT) - (2*TT)', 'Lc = Vc/(pi*(IDc**2))', 'Rt = np.sqrt(At/pi)', 'R1 = Rt', 'R2 = 0.382 * Rt ', e.PE, 'λ=0.5*(1+cos(ang))', 'Ln = (Rt*((np.sqrt(ε)-1))+(R1*cos(ang-1))**-1)) / np.tan(np.(ang))', '0.8 * Ln', '0.75 * Ln', '0.7 * Ln', (e.PE + 'based off ε and Bell Percentage'), (e.PE + 'based off ε and Bell Percentage')])
+    units = [u.FU, e.NU, u.PU, u.AU, u.AU, u.Mo, e.NU, 'ft/R°', u.TU, u.PU, u.TU, u.VU, u.aU, u.vU, e.NU, u.PU, u.vU, u.TU, u.aU, e.NU, 'lb/sec', e.NU, e.NU, u.TU, u.TU, u.aU, u.aU, u.vU, u.vU,
+             u.PU, u.PU, u.PU, u.PU, u.VU, u.VU, u.AU, u.AU, u.DU, u.DU, u.AU, e.NU, u.DU, u.DU, u.VoU, u.DU, u.DU, u.DU, u.DU, u.DU, u.DU, u.DU, u.DU, u.ang, e.NU, u.DU, u.DU, u.DU, u.DU, u.ang, u.ang]
 
     sheet = input('Would you like a excel spreadsheet? y/n ')
     if sheet == 'y':
@@ -161,4 +154,4 @@ def run():
 
 
 #! For Debuging
-run()
+# run()

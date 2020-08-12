@@ -1,4 +1,4 @@
-system = FU = PU = AU = VU = vU = VoU = Mo = ang = aU = MdU = TU = g = DU = None
+system = FU = PU = AU = VU = vU = VoU = Mo = ang = aU = MdU = TU = g = DU = pgU = WU = TimeU = None
 
 
 def system():
@@ -7,7 +7,7 @@ def system():
     system = input("What units do you use: ")
 
     def set_units():
-        global FU, PU, AU, VU, vU, VoU, Mo, ang, MdU, aU, TU, g, DU
+        global FU, PU, AU, VU, vU, VoU, Mo, ang, MdU, aU, TU, g, DU, pgU, WU, TimeU
         if(system == '1'):
             FU = 'N'
             PU = ''
@@ -27,6 +27,9 @@ def system():
             DU = 'in'
             ang = '°'
             aU = 'ft/sec'
+            pgU = 'TODO'
+            WU = 'Lb'
+            TimeU = 'sec'
         else:
             print("Invalid input!\n")
             set_units()
