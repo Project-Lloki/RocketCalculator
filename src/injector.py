@@ -71,6 +71,24 @@ def run():
     print('\nThe diameter of each oxidizer hole is ' + str(do) +
           ' in\nand the diameter of each fuel hole is ' + str(df) + ' in')
 
+    print('\nNext, we will use ratioed MDOTS for the hole sizes, to see if that is correct')
+    mixRatioDenomenator = float(input('Mixture Ratio Denomenator: '))
+    omdot = (mixRatioDenomenator*mdot)/(mixRatioDenomenator + 1)
+    fmdot = mdot/(mixRatioDenomenator + 1)
+    TROA = omdot/(Cd*np.sqrt(2*u.g*pgo*deltap))
+    TRFA = fmdot/(Cd*np.sqrt(2*u.g*pgf*deltap))
+    print('\nTotal Oxidizer hole area: ' + str(TROA))
+    IROA = TROA / oholes
+    print('IOA: ' + str(IROA))
+    print('Total Fuel hole area: ' + str(TRFA))
+    IRFA = TRFA / fholes
+    print('IFA: ' + str(IRFA))
+
+    rdo = 2*np.sqrt(IROA/pi)
+    rdf = 2*np.sqrt(IRFA/pi)
+    print('\nThe diameter of each oxidizer hole is ' + str(rdo) +
+          ' in\nand the diameter of each fuel hole is ' + str(rdf) + ' in')
+
     print('\nNext, we will solve for chamber pressure, we will need c*, At and mdot for this')
     cstar = float(input('c* (effective exhaust velocity): '))
     At = float(input('At (throat area): '))
@@ -111,14 +129,14 @@ def run():
     if con == 'y':
         extra()
     else:
-        variables = [F, Is, mdot, ele, itype, oholes, fholes, Cd,
-                     pgo, deltap, TOA, IOA, pgf, TFA, IFA, do, df]
-        names = ['F (thrust)', 'Is (Specific Impulse', 'mdot (Mass Flow Rate)', 'Element Count', 'Injector Type', 'Oxidizer Holes', 'Fuel Holes', 'Cd (Density Coefficient)', 'p_o (Oxidizer Density)', 'delatp (Pressure Change over Injecor)',
-                 'TOA (Total Oxidizer Hole Area)', 'IOA (Individual Oxidizer Hole Area)', 'p_f (Fuel Density)', 'TFA (Total Fuel Hole Area)', 'IFA (Individual Fuel Hole Area)', 'Do (Individual Oxidizer Hole Diameter', 'Df (Individual Fuel Hole Diameter']
+        variables = [F, Is, mdot, ele, itype, oholes, fholes, Cd, pgo, deltap, TOA, IOA,
+                     pgf, TFA, IFA, do, df, (1/mixRatioDenomenator), TROA, TRFA, IROA, IRFA, rdo, rdf]
+        names = ['F (thrust)', 'Is (Specific Impulse', 'mdot (Mass Flow Rate)', 'Element Count', 'Injector Type', 'Oxidizer Holes', 'Fuel Holes', 'Cd (Density Coefficient)', 'p_o (Oxidizer Density)', 'delatp (Pressure Change over Injecor)', 'TOA (Total Oxidizer Hole Area)', 'IOA (Individual Oxidizer Hole Area)', 'p_f (Fuel Density)', 'TFA (Total Fuel Hole Area)',
+                 'IFA (Individual Fuel Hole Area)', 'Do (Individual Oxidizer Hole Diameter', 'Df (Individual Fuel Hole Diameter', 'Mixture Ratio (fuel: oxidizer)', 'TROA (Total Ratioed Oxidizer Area)', 'TRFA (Total Ratioed Fuel Area)', 'IROA (Individual Ratioed Oxidizer Area)', 'IRFA (Individual Ratioed Fuel Area)', 'rDo (Ratioed Oxidizer Hole Diameter)', 'rDf (Ratioed Fuel Hole Diameter']
         equations = e.pretty([e.P, e.PI, 'mdot = F/Is', e.PE, e.P, e.PE, e.PE, e.PE, e.PI, e.PE, 'TOA = mdot/(Cd*np.sqrt(2*go*pgo*deltap))', 'IOA = TOA / o-hole-count',
-                              e.PI, 'TFA = mdot/(Cd*np.sqrt(2*go*pgf*deltap))', 'IFA = TFA / f-hole-count', 'Do = 2*np.sqrt(IOA/pi)', 'Df = 2*np.sqrt(IFA/pi)'])
-        units = [u.FU, e.NU, u.MdU, e.NU, e.NU, e.NU, e.NU, e.NU,
-                 u.pgU, u.PU, u.AU, u.AU, u.pgU, u.AU, u.AU, u.DU, u.DU]
+                              e.PI, 'TFA = mdot/(Cd*np.sqrt(2*go*pgf*deltap))', 'IFA = TFA / f-hole-count', 'Do = 2*np.sqrt(IOA/pi)', 'Df = 2*np.sqrt(IFA/pi)', e.PI, 'TROA = omdot/(Cd*np.sqrt(2*go*pgo*deltap))', 'TRFA = fmdot/(Cd*np.sqrt(2*go*pgo*deltap))', 'IROA = TROA / o-hole-count', 'IRFA = TRFA / o-hole-count', 'rDo = 2*np.sqrt(IROA/pi)', 'rDf = 2*np.sqrt(IRFA/pi)'])
+        units = [u.FU, e.NU, u.MdU, e.NU, e.NU, e.NU, e.NU, e.NU, u.pgU, u.PU, u.AU,
+                 u.AU, u.pgU, u.AU, u.AU, u.DU, u.DU, e.NU, u.AU, u.AU, u.AU, u.AU, u.DU, u.DU]
 
         sheet = input('Would you like a excel spreadsheet? y/n ')
         if sheet == 'y':

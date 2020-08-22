@@ -44,7 +44,7 @@ def run():
 
     variables = [mdot, burnTime, fuelMass, loxMass, r,
                  loxVolume, loxHeightInches, fuelVolume, fuelHeightInches]
-    names = ['Mass Flow Rate (mdot)', 'Burntime', 'Kerosene Mass', 'LOX Mass', 'Tank Radius\'', 'LOX Tnak Volume',
+    names = ['Mass Flow Rate (mdot)', 'Burntime', 'Kerosene Mass', 'LOX Mass', 'Tank Radius', 'LOX Tank Volume',
              'LOX Tank Height', 'Kerosene Tank Volume', 'Kerosene Tank Height']
     equations = [e.P, e.P, 'fuelMass = (mdot * burnTime)/3.56', 'loxMass = fuelMass * 2.56', e.P, 'lox Volume = 1.5 * (weight / PropellantDensity)',
                  'lox Height = (volume / ((r ** 2) * math.pi))*12', 'kerosene Volume = 1.5 * (weight / PropellantDensity)', 'kerosene Height = (volume / ((r ** 2) * math.pi))*12']
