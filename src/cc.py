@@ -57,10 +57,18 @@ def run():
     ae = np.sqrt(u.g*y*R*Te)  # velocity of sound at nozzle exit
     Me = ve/ae  # Mach Number at nozzle exit
     Ae = ((2/(y+1))**1/(y-1))*((Pc/Pe)**(1/y))  # Area of nozzle exit
-    ε = Ae/At  # Expansion Ratio
-    print('Ae: ' + format(Ae.real) + ' ' + u.AU)
-    De = 2*(np.sqrt(Ae/pi))
-    print('De: ' + str(De) + ' ' + 'in')
+    Request = input('Would you like to input a desired Exit Diameter? y/n')
+    if Request == 'n':
+        ε = Ae/At  # Expansion Ratio
+        print('Ae: ' + format(Ae.real) + ' ' + u.AU)
+        De = 2*(np.sqrt(Ae/pi))
+        print('De: ' + str(De) + ' ' + 'in')
+    else:
+        De = float(input('Requested Nozzle Exit Diameter: '))
+        Ae = pi*(De/2)**2
+        ε = Ae/At
+        print('Ae: ' + format(Ae.real) + ' ' + u.AU)
+        print('De: ' + str(De) + ' ' + 'in')
     print('ε: ' + format(ε.real))
     print('ve: ' + format(ve.real) + ' ' + u.vU)
     print('Te: ' + str(Te))
@@ -110,14 +118,18 @@ def run():
     Lc = Vc/(pi*((IDc/2)**2))
     print('Chamber Inner Diameter: ' + str(IDc))
     print('Chamber Length: ' + str(Lc))
+
     # ? surface area of the nozzle pdf page 101
+
     Rt = np.sqrt(At/pi)
     print('Rt: ' + str(Rt))
     R1 = Rt  # range from 0.5 to 1.5 of Rt (before Throat)
     R2 = 0.382 * Rt  # After throat
     print('R1 (before throat): ' + str(R1))
     print('R2 (after throat): ' + str(R2))
+
     # ? half angle between 20-45
+
     ang = float(input(
         'Half angle of the Conical Nozzle (usually 15): '))
     λ = 0.5*(1+np.cos(np.radians(ang)))
