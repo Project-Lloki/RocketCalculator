@@ -112,6 +112,7 @@ def run():
     Lc = Vc/(pi*((IDc/2)**2))
     Ac = pi*(IDc/2)**2
     ContractionRatio = (Ac/At)
+    print('Contraction Ratio: ' + str(ContractionRatio))
     print('Chamber Inner Diameter: ' + str(IDc))
     print('Chamber Length: ' + str(Lc))
 
