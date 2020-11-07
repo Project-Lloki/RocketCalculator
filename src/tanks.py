@@ -1,8 +1,8 @@
 # tank height and radius calculator from weight requirements for lox and kerosene.
-import math
+import excel as e
 import restart as re
 import units as u
-import excel as e
+import math
 
 variables = []
 names = []
@@ -23,24 +23,28 @@ def run():
     keroseneWeightPerCubedFoot = 49.90
 
     mdot = float(input("your mdot (mass flow) in lb/s: "))
+    ratio = float(input("Mixture (O/F) ratio: "))
+    ullageF = float(input("% of FUEL tankage you want to be ullage: "))
+    ullageO = float(input("% of OXIDIZER tankage you want to be ullage: "))
     burnTime = float(input("burntime: "))
-    fuelMass = (mdot * burnTime)/3.56
-    loxMass = fuelMass * 2.56
+    fuelMass = (mdot * burnTime)/(ratio + 1)
+    loxMass = fuelMass * ratio
     print(format(loxMass, '0.3f') + "lbs LOX and " +
           format(fuelMass, '0.3f') + "lbs fuel.")
 
     r = float(input("radius-inches: "))/12
-    loxVolume = 1.5 * (loxMass / loxWeightPerCubedFoot)
-    loxHeightFeet = loxVolume / ((r ** 2) * math.pi)
-    loxHeightInches = (loxVolume / ((r ** 2) * math.pi))*12
+    loxVolume =  (loxMass / loxWeightPerCubedFoot)/(1 - ullageO)
+
+    loxHeightFeet = (loxVolume - (4/3*math.pi*r**2))/(math.pi*r)
+    loxHeightInches = loxHeightFeet*12
     print(format(loxHeightFeet, '0.3f') + " feet or " +
           format(loxHeightInches, '0.3f') + " inches")
 
-    fuelVolume = 1.5 * (fuelMass / keroseneWeightPerCubedFoot)
+    fuelVolume =(fuelMass / keroseneWeightPerCubedFoot)/(1-ullageF)
     fuelHeightFeet = fuelVolume / ((r ** 2) * math.pi)
     fuelHeightInches = (fuelVolume / ((r ** 2) * math.pi))*12
-    print(format(fuelHeightFeet, '0.3f') + " feet or " +
-          format(fuelHeightInches, '0.3f') + " inches")
+    print(format(fuelHeightFeet, '0.3f') + " feet or " + format(fuelHeightInches, '0.3f') + " inches")
+
 
     variables = [mdot, burnTime, fuelMass, loxMass, r,
                  loxVolume, loxHeightInches, fuelVolume, fuelHeightInches]
