@@ -27,10 +27,22 @@ def run():
     #in meters / second
 
     burnoutalt = burnoutv / 2 * tburn
-    apogeealt = burnoutalt + (burnoutv/(2*g0))
+    apogeealt = burnoutalt + burnoutv**2 / (-2*g0)
+    burnacceleration = burnoutv / tburn
+
+    #h = 0.5(v^2)/g
+
+    #the thing about burnout is that the derivative of acceleration is at its maximum so we can (but do not have to, theres an easier way) visualize the
+    #derivative of the rockets acceleration as going to be at its maximum point to be at burnout which then leaves us with in this drag ignored scenario with an acceleration
+    #addition of gravity.
+
     coastingtime = -1* burnoutv / g0
+    #recoverytime =math.sqrt(-2*g0*apogeealt)/(-1*g0)
     #meters
-    print(format(apogeealt, '0.3f') + "meters and a coasting time of " + format(coastingtime, '0.3f') + "and a max velocity of " + format(burnoutv, '0.3f') + "m/s")
+    print(format(apogeealt, '0.3f') + " meters and a coasting time of " + format(coastingtime, '0.3f') + " seconds and a max velocity of " + format(burnoutv, '0.3f') + "m/s")
+    print(format(burnoutalt, '0.3f'))
+    #print(format(recoverytime, '0.3f'))
+    # one quicek note about burnout is that the acceleration stops increasing and begins to decrease, this means that the derivative of acceleration is zero.
     # using kinematics equation v0^2 = v^2 + 2adeltax
     # boils down to in this case -burnoutv/2g = deltax
     #C IS METRIC
