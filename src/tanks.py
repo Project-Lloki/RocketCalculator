@@ -20,7 +20,7 @@ def run():
     # solve = input("What are you solving for?\n")
 
     loxWeightPerCubedFoot = 71.23
-    keroseneWeightPerCubedFoot = 49.90
+    keroseneWeightPerCubedFoot = 50.566665
 
     mdot = float(input("your mdot (mass flow) in lb/s: "))
     ratio = float(input("Mixture (O/F) ratio: "))
@@ -29,20 +29,16 @@ def run():
     burnTime = float(input("burntime: "))
     fuelMass = (mdot * burnTime)/(ratio + 1)
     loxMass = fuelMass * ratio
-    print(format(loxMass, '0.3f') + "lbs LOX and " +
-          format(fuelMass, '0.3f') + "lbs fuel.")
-
+    print(format(loxMass, '0.3f') + "lbs LOX and " + format(fuelMass, '0.3f') + "lbs fuel.")
     r = float(input("radius-inches: "))/12
     loxVolume =  (loxMass / loxWeightPerCubedFoot)/(1 - ullageO)
-
-    loxHeightFeet = (loxVolume - (4/3*math.pi*r**2))/(math.pi*r)
+    loxHeightFeet = (loxVolume/(math.pi*r**2)) - (4/3*r)
     loxHeightInches = loxHeightFeet*12
-    print(format(loxHeightFeet, '0.3f') + " feet or " +
-          format(loxHeightInches, '0.3f') + " inches")
+    print(format(loxHeightFeet, '0.3f') + " feet or " + format(loxHeightInches, '0.3f') + " inches")
 
     fuelVolume =(fuelMass / keroseneWeightPerCubedFoot)/(1-ullageF)
-    fuelHeightFeet = fuelVolume / ((r ** 2) * math.pi)
-    fuelHeightInches = (fuelVolume / ((r ** 2) * math.pi))*12
+    fuelHeightFeet = (fuelVolume/(math.pi*r**2)) - (4/3*r)
+    fuelHeightInches = fuelHeightFeet*12
     print(format(fuelHeightFeet, '0.3f') + " feet or " + format(fuelHeightInches, '0.3f') + " inches")
 
 
@@ -54,26 +50,7 @@ def run():
                  'lox Height = (volume / ((r ** 2) * math.pi))*12', 'kerosene Volume = 1.5 * (weight / PropellantDensity)', 'kerosene Height = (volume / ((r ** 2) * math.pi))*12']
     units = [u.MdU, u.TimeU, u.WU, u.WU, u.DU, u.VoU, u.DU, u.VoU, u.DU]
 
-    # def radius():
-    #     global variables, names, equations, units
-    #     h = float(input("height-inches:")) / 12
-    #     weight = float(input("weight in pounds:"))
-    #     loxOrKero = input(" LOX or Kerosene \n 1: LOX, 2: Kerosene: \n")
-    #     if loxOrKero == '1':
-    #         volume = 1.5 * (weight / loxWeightPerCubedFoot)
-    #         return format(math.sqrt((volume/(math.pi*h))), '0.3f') + " feet or " + format(math.sqrt((volume/(math.pi*h))) * 12, '0.3f') + " inches"
-    #     elif loxOrKero == '2':
-    #         volume = 1.5 * (weight / keroseneWeightPerCubedFoot)
-    #         return format(math.sqrt((volume/(math.pi*h))), '0.3f') + " feet or " + format(math.sqrt((volume/(math.pi*h))) * 12, '0.3f') + " inches"
 
-    # if(solve == '1'):
-    #     print(height())
-    # elif(solve == '2'):
-    #     print(radius())
-    # elif(solve == '3'):
-    #     print(fuelNeeded())
-    # else:
-    #     print("Invalid input, use 1 or 2 + ENTER")
 
     sheet = input('Would you like a excel spreadsheet? y/n ')
     if sheet == 'y':
