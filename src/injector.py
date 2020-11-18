@@ -36,8 +36,8 @@ def run():
     print('Fuel Mass Flow Rate: ' + str(fuelMdot))
     print(oxMdot/fuelMdot)
 
-    oxidizerArea = oxMdot/(Cd*np.sqrt(2*u.g*oxidizerP*deltap))
-    fuelArea = fuelMdot/(Cd*np.sqrt(2*u.g*fuelP*deltap))
+    oxidizerArea = oxMdot/(Cd*np.sqrt(2*u.g*12*oxidizerP*deltap))
+    fuelArea = fuelMdot/(Cd*np.sqrt(2*u.g*12*fuelP*deltap))
     print('\nTotal Oxidizer Hole Area: ' + str(oxidizerArea))
     individualOxArea = oxidizerArea / oxHoles
     print('Individual Oxygen Hole Area: ' + str(individualOxArea))
