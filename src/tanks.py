@@ -29,6 +29,8 @@ def run():
         ullageO = float(input("% of OXIDIZER tankage you want to be ullage: "))
         loxVolume = (loxMass / loxWeightPerCubedFoot)/(1 - ullageO)
         fuelVolume = (fuelMass / keroseneWeightPerCubedFoot)/(1 - ullageF)
+        print(format(fuelVolume, '0.3f') + "FUEL VOLUME KEK in uhhhhh inches^3")
+        print(format(loxVolume, '0.3f') + "Lox VOLUME KEK in uhhhhh inches^3")
         loxHeightFeet = (loxVolume/(math.pi*r**2)) - (4/3*r)
         loxHeightInches = loxHeightFeet * 12
         fuelHeightFeet =(fuelVolume/(math.pi*r**2)) - (4/3*r)

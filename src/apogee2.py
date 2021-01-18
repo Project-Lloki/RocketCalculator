@@ -3,6 +3,9 @@ import numpy as np
 import restart as r
 import units as u
 import excel as e
+from src.apogeeFiles.burn import burn
+from src.apogeeFiles.coast import coast
+from apogeeFiles.descent import descent
 
 
 def run():
@@ -12,8 +15,8 @@ def run():
     # Please note, the reason the units are asked for in imperial is because that is what is more commonly used by us, however these must be converted to metric in the codebase.
     # AS FOLLOWS IS METRIC. DOTH NOT BE FOOLED!
 
-    m0 = float(input("Dry mass in lbs : ")) * 0.453592
-    mf = float(input("total rocket including propellant in lbs : ")) * 0.453592
+    mf = float(input("Dry mass in lbs : ")) #* 0.453592
+    m0 = float(input("total rocket including propellant in lbs : ")) #* 0.453592
     tburn = float(input("Burn time in seconds : "))
     Thrust = float(input("Thrust in lbf : ")) * 4.44822
     isp = float(input("Specific impulse : "))
@@ -21,10 +24,20 @@ def run():
     Cd = float(input("Drag Coefficient (if you don't know, 0.5 is a good estimate for subsonic, 0.6 for transonic/supersonic) : "))
     launchAngle = float(input("Launch angle from horizontal : "))
     #VACUUM SETUP
+
+    burn.run()
+    coast.run()
+    descent.run()
+
+    propellantMass = m0-mf
+    F = isp * propellantMass/tburn
     g0 = -9.81
+    Burnoutgf = 9.8787
     c = g0 * isp
     burnoutv = c * np.log(m0/mf)
     #in meters / second
+    averageBurnGravity = (g0 + Burnoutgf)/2
+
 
     burnoutalt = burnoutv / 2 * tburn
     apogeealt = burnoutalt + burnoutv**2 / (-2*g0)
@@ -39,6 +52,7 @@ def run():
     coastingtime = -1* burnoutv / g0
     #recoverytime =math.sqrt(-2*g0*apogeealt)/(-1*g0)
     #meters
+    print(format(F, '0.3f') + "THRUST IN LBS!")
     print(format(apogeealt, '0.3f') + " meters and a coasting time of " + format(coastingtime, '0.3f') + " seconds and a max velocity of " + format(burnoutv, '0.3f') + "m/s")
     print(format(burnoutalt, '0.3f'))
     #print(format(recoverytime, '0.3f'))
