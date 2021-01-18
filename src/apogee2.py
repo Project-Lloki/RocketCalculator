@@ -3,9 +3,9 @@ import numpy as np
 import restart as r
 import units as u
 import excel as e
-from src.apogeeFiles.burn import burn
-from src.apogeeFiles.coast import coast
-from apogeeFiles.descent import descent
+#from apogeeFiles.burn import burn
+#from apogeeFiles.coast import coast
+#from apogeeFiles.descent import descent
 
 
 def run():
@@ -25,9 +25,9 @@ def run():
     launchAngle = float(input("Launch angle from horizontal : "))
     #VACUUM SETUP
 
-    burn.run()
-    coast.run()
-    descent.run()
+  #  burn.run()
+  #  coast.run()
+  #  descent.run()
 
     propellantMass = m0-mf
     F = isp * propellantMass/tburn
