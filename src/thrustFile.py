@@ -14,7 +14,8 @@ def run():
     initialMdot = float(input("Initial Mdot in lbm/s: "))
     initialTankPressure = float(input("Initial Tank pressure in psi: "))
     finalTankPressure = float(input("Final Tank pressure in psi: "))
-    propMassGrams = 0
+    AltitudeEstimates = [100, 300, 500, 1000, 1700, 2500, 3500, 4850, 6250, 7900, 9600, 11500, 14000, 18500]
+    # 15 second burn extimated altitude temporary only.
     print("<engine-database><engine-list><engine  mfg=\"Mckinney High School\" code=\"001\" Type=\"Liquid Kerolox\" dia=\""+format(diameter)+"\" len=\""+format(length)+"\" initWt=\""+format(totalEngineMassGrams)+"\""
           + "propWt=\"" + format(propMassGrams) + "\" delays=\"1\" auto-calc-mass=\"1\" auto-calc-cg=\"1\"" +
 "avgThrust=\"6700\" peakThrust=\"7330\" throatDia=\"101.6\" exitDia=\"5\" Itot=\"18.017\""+
@@ -33,13 +34,12 @@ def run():
     currentPropellantMass = propMassGrams - mdot
     dryMass = totalEngineMassGrams - propMassGrams
     #mdot = initialMdot*sqrt((initialTankPressure-(finalTankPressure/burnTime)*t)/initialTankPressure)
-    for t in range (0, 15):
-
-        mdot = initialMdot*math.sqrt((initialTankPressure-(finalTankPressure/burnTime)*t)/initialTankPressure)
+    for t in range (1, 15):
+        mdot = initialMdot * math.sqrt((initialTankPressure - (finalTankPressure/burnTime) * t) / initialTankPressure)
         currentPropellantMass -= mdot
-
-        print("<eng-data t=" + format(t)+"\" f=\"" + format(currentThrust) + "\" m=\"" + format(currentPropellantMass+dryMass)+ "\" cg=\"1524")
-
+        currentThrust =
+        print("<eng-data t=" + format(t)+"\" f=\"" + format(currentThrust) + "\" m=\"" + format(currentPropellantMass+dryMass)+ "\" cg=\"1524\"/>")
+#       y = -0.02474x + 1517.89 is the linear reg for thrust.
 #      <eng-data  t=\"1\" f=\"6740.6\" m=\"68038.9\" cg=\"1524.\"/>
 #    </data>
 #  </engine>
