@@ -26,22 +26,20 @@ def run():
     currentThrust = 0
     mdotSpent = 0
     # TAKE THIS INTEGRAL OF THE MDOT EQUATION TO FIND THE TOTAL PROPELLANT MASS SPENT.
-    def integrand(t, iM, iT, fT, tB):
-        return iM * math.sqrt((iT-(fT/tB) * t/iT))
+    def f(t):
+        return initialMdot * math.sqrt((initialTankPressure-(finalTankPressure/burnTime) * t/initialTankPressure))
 
-    propMassGrams = integrate.quad(integrand, 0, burnTime, args=(initialMdot, initialTankPressure, finalTankPressure, burnTime))
-
-    currentPropellantMass = propMassGrams - mdot
-    dryMass = totalEngineMassGrams - propMassGrams
+    propMassGrams = integrate.quad(f, 0, burnTime) * 453.592
+    print(propMassGrams)
+    #currentPropellantMass = propMassGrams - mdot
+    #dryMass = totalEngineMassGrams - propMassGrams
     #mdot = initialMdot*sqrt((initialTankPressure-(finalTankPressure/burnTime)*t)/initialTankPressure)
-    for t in range (1, 15):
-        mdot = initialMdot * math.sqrt((initialTankPressure - (finalTankPressure/burnTime) * t) / initialTankPressure)
-        currentPropellantMass -= mdot
-        currentThrust =
-        print("<eng-data t=" + format(t)+"\" f=\"" + format(currentThrust) + "\" m=\"" + format(currentPropellantMass+dryMass)+ "\" cg=\"1524\"/>")
-#       y = -0.02474x + 1517.89 is the linear reg for thrust.
+    #for t in range (1, 15):
+     #   mdot = initialMdot * math.sqrt((initialTankPressure - (finalTankPressure/burnTime) * t) / initialTankPressure)
+      #  currentPropellantMass -= mdot
+       # currentThrust = 4.48 * (-0.02474 * AltitudeEstimates[t] + 1517.89)
+
+        #print("<eng-data t=" + format(t)+"\" f=\"" + format(currentThrust) + "\" m=\"" + format(currentPropellantMass+dryMass)+ "\" cg=\"1524\"/>")
+#       y = -0.02474x + 1517.89 is the linear reg for thrust. 4.48 is the conversion factor from lbf to n.
+    #print("</data></engine></engine-list></engine-database>")
 #      <eng-data  t=\"1\" f=\"6740.6\" m=\"68038.9\" cg=\"1524.\"/>
-#    </data>
-#  </engine>
-#</engine-list>
-#</engine-database>\"

@@ -76,8 +76,8 @@ def run():
     # print('Ae: ' + format(Ae.real) + ' ' + u.AU)
     # De = 2*(np.sqrt(Ae/pi))
     # print('De: ' + str(De) + ' ' + 'in')
-    # ε = Ae/At
-    # print('ε: ' + format(ε.real))
+    # epsilon = Ae/At
+    # print('epsilon: ' + format(epsilon.real))
 
     print('ve: ' + format(ve.real) + ' ' + u.vU)
     print('Te: ' + str(Te))
@@ -86,17 +86,17 @@ def run():
     Ae = (At/Me)*((1+((y-1)/2)*(Me**2))/((y+1)/2))**((y+1)/(2*(y-1)))
     De = 2*(np.sqrt(Ae/pi))
     print('De: ' + str(De) + ' ' + 'in')
-    ε = Ae/At
+    epsilon = Ae/At
     print('Ae: ' + format(Ae.real) + ' ' + u.AU)
-    print('ε: ' + str(ε))
+    print('epsilon: ' + str(epsilon))
 
     # Ae3 = At/((((y+1)/2)**(1/(y-1)))*((Pe/Pc)**(1/y)) *
     #           np.sqrt(((y+1)/(y-1))*((1-(Pe/Pc))**((y-1)/y))))
     # De3 = 2*(np.sqrt(Ae3/pi))
     # print('De3: ' + str(De3) + ' ' + 'in')
-    # ε3 = Ae3/At
+    # epsilon3 = Ae3/At
     # print('Ae3: ' + format(Ae3.real) + ' ' + u.AU)
-    # print('ε3: ' + str(ε3))
+    # print('epsilon3: ' + str(epsilon3))
 
     # * Nozzle/Chamber Geom Params
     Lstar = float(input('Characteristic Length (L*): '))
@@ -133,7 +133,7 @@ def run():
     print('λ: ' + str(λ))
     sec = (np.cos(np.radians(ang-1)))**-1
     tan = np.tan(np.radians(ang))
-    Ln = (Rt*((np.sqrt(ε)-1))+(R1*sec)) / tan
+    Ln = (Rt*((np.sqrt(epsilon)-1))+(R1*sec)) / tan
     print('Optimum Conical Nozzle length (Ln): ' + str(Ln))
     BLn_8 = Ln * 0.8
     BLn_75 = Ln * 0.752
@@ -177,11 +177,11 @@ def run():
     # * Excel Output
 
     variables = [F, Cf, Pc, At, At2, Is, mdot, Wdot, Mo, y, R, Tc, Pt, Tt, V1, Vt, at, vt, Mt, Pe, ve, Te, ae, Me, Mi, Ti, ai, vi, Pinj,
-                 Pi, Vi, Ai, Di, Ae, ε, De, Lstar, Vc, ODc, LT, TT, IDc, Lc, Rt, ang, λ, Ln, BLn_8, BLn_75, BLn_7, θn, θe]
+                 Pi, Vi, Ai, Di, Ae, epsilon, De, Lstar, Vc, ODc, LT, TT, IDc, Lc, Rt, ang, λ, Ln, BLn_8, BLn_75, BLn_7, θn, θe]
     names = ['F (Thrust)', 'Cf (Coefficient of Thrust)', 'Pc (Chamber Pressure)', 'At (Throat Area)', 'At2 (Throat Area 2)', 'Is (Specific Impulse)', 'mdot (Mass Flow Rate)', 'Wdot (Weight Flow Rate)', 'M (Molecular Weight)', 'y (Specific Heat ratio)', 'R (Gas constant)', 'Tc (Chamber Temperature)', 'Pt (Throat Pressure)', 'Tt (Throat Temperature)', 'V1 (Specific Volume)', 'Vt (Throat Flow Volume)', 'at (Throat Sound Velocity)', 'vt (Throat Flow Velocity)', 'Mt (Throat Mach Number)',  'Pe (Exit Pressure)', 've (Exit Flow Velocity)', 'Te (Exit Temperature)', 'ae (Exit Sound Velocity)', 'Me (Exit Mach Number)', 'Wdot (Weight Flow Rate)', 'Mi (Inlet Mach Number)',
-             'Ti (Inlet Temperature)', 'ai (Inlet Sound Velocity)', 'vi (Inlet Flow Velocity)', 'Pinj (Injector Pressure)', 'Pi (Inlet Pressure)', 'Vi (Inlet Flow Volume)', 'Ai (Inlet Area)', 'Di (Inlet Diameter)', 'Ae (Exit Area)', 'ε (Expansion Ratio)', 'De (Exit Diameter)', 'L* (Characteristic Length)', 'Vc (Chamber Volume)', 'ODc (Chamber Outer Diameter)', 'LT (Ablative Liner Thickness)', 'TT (Chamber Tube Thickness)', 'IDc (Chamber Inner Diameter)', 'Lc (Chamber Length)', 'Rt (Throat Radius)', 'Connical Half Angle', 'Lambda (λ)', 'Ln (Connical Nozzle Lengthz)', '80% Bell Nozzle Length', '75% Bell Nozzle Length', '70% Bell Nozzle Length', 'θn (Parabola Entry Angle)', 'θe (Parabola Exit Angle)']
+             'Ti (Inlet Temperature)', 'ai (Inlet Sound Velocity)', 'vi (Inlet Flow Velocity)', 'Pinj (Injector Pressure)', 'Pi (Inlet Pressure)', 'Vi (Inlet Flow Volume)', 'Ai (Inlet Area)', 'Di (Inlet Diameter)', 'Ae (Exit Area)', 'epsilon (Expansion Ratio)', 'De (Exit Diameter)', 'L* (Characteristic Length)', 'Vc (Chamber Volume)', 'ODc (Chamber Outer Diameter)', 'LT (Ablative Liner Thickness)', 'TT (Chamber Tube Thickness)', 'IDc (Chamber Inner Diameter)', 'Lc (Chamber Length)', 'Rt (Throat Radius)', 'Connical Half Angle', 'Lambda (λ)', 'Ln (Connical Nozzle Lengthz)', '80% Bell Nozzle Length', '75% Bell Nozzle Length', '70% Bell Nozzle Length', 'θn (Parabola Entry Angle)', 'θe (Parabola Exit Angle)']
     equations = e.pretty([e.P, e.PI, e.P, 'At = F/(Cf*Pc)', 'At2 = (144*mdot*Vt)/vt', e.PI, 'mdot = F/Is', 'Wdot = At*Pc*np.sqrt((u.g*y*(2/(y+1))**(y+1)/(y-1))/(R*Tc))', e.PI, e.PI, 'R = (1544/M)', 'Temperature of Combustion', 'Pt = Pc*(2/(y+1))**(y/(y-1))', 'Tt = (2*Tc)/(y+1)', 'V1 = (R*Tc)/(144*Pc)', 'Vt = V1*((y+1)/2)**(1/(y-1))', 'at = np.sqrt(y*R*Tt)', 'vt = np.sqrt(((2*y)/(y+1))*R*Tc)', 'Mt = vt/at', 'Approximate Outside Pressure', 've = np.sqrt(((2*y)/(y-1))*R*Tc*(1-(Pe/Pc)**((y-1)/y)) + vi**2)', 'Te = Tc*((Pe/Pc)**((y-1)/y))', 'ae = np.sqrt(y*R*Te)', 'Me = ve/ae', e.PE, 'Ti = Tc', 'ai = np.sqrt(g*y*R*Ti)', 'vi = Mi*ai', 'Pinj = Pc*((1+(y*(Mi**2)))/((1+((y+1)/2)*(Mi**2))**(y/(y-1))))',
-                          'Pi = Pinj/(1+(y*(Mi**2)))', 'Vi = (R*Ti)/(144*Pi)', 'Ai = (144*Wdot*Vi)/vi', 'Di = 2*(np.sqrt(ai/pi))', 'Ae = (At/Me)*((1+((y-1)/2)*(Me**2))/((y+1)/2))**((y+1)/(2*(y-1)))', 'ε = Ae/At', 'De = 2*(np.sqrt(Ae/pi))', e.PE, 'Vc = At*Lstar', e.P, e.P, e.P, 'IDc = ODc - (2*LT) - (2*TT)', 'Lc = Vc/(pi*(IDc**2))', 'Rt = np.sqrt(At/pi)', e.PE, 'λ=0.5*(1+cos(ang))', 'Ln = (Rt*((np.sqrt(ε)-1))+(R1*cos(ang-1))**-1)) / np.tan(np.(ang))', '0.8 * Ln', '0.75 * Ln', '0.7 * Ln', (e.PE + 'based off ε and Bell Percentage'), (e.PE + 'based off ε and Bell Percentage')])
+                          'Pi = Pinj/(1+(y*(Mi**2)))', 'Vi = (R*Ti)/(144*Pi)', 'Ai = (144*Wdot*Vi)/vi', 'Di = 2*(np.sqrt(ai/pi))', 'Ae = (At/Me)*((1+((y-1)/2)*(Me**2))/((y+1)/2))**((y+1)/(2*(y-1)))', 'epsilon = Ae/At', 'De = 2*(np.sqrt(Ae/pi))', e.PE, 'Vc = At*Lstar', e.P, e.P, e.P, 'IDc = ODc - (2*LT) - (2*TT)', 'Lc = Vc/(pi*(IDc**2))', 'Rt = np.sqrt(At/pi)', e.PE, 'λ=0.5*(1+cos(ang))', 'Ln = (Rt*((np.sqrt(epsilon)-1))+(R1*cos(ang-1))**-1)) / np.tan(np.(ang))', '0.8 * Ln', '0.75 * Ln', '0.7 * Ln', (e.PE + 'based off epsilon and Bell Percentage'), (e.PE + 'based off epsilon and Bell Percentage')])
     units = [u.FU, e.NU, u.PU, u.AU, u.AU, u.TimeU, u.MdU, u.WU, u.Mo, e.NU, 'ft/R°', u.TU, u.PU, u.TU, u.VU, u.VU, u.aU, u.vU, e.NU, u.PU, u.vU, u.TU, u.aU, e.NU, e.NU, u.TU, u.aU, u.vU,
              u.PU, u.PU, u.VU, u.AU, u.DU, u.AU, e.NU, u.DU, u.DU, u.VoU, u.DU, u.DU, u.DU, u.DU, u.DU, u.DU, u.ang, e.NU, u.DU, u.DU, u.DU, u.DU, u.ang, u.ang]
 
